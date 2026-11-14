@@ -18,24 +18,12 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
     const caseSmoke = DEMO_CASES.at(2)!;
 
     if (phenomenon === 'warming' || ecosystem === 'polar') {
-      return {
-        ...caseArctic,
-        startYear: span === 'short' ? 2010 : 1985,
-        endYear: 2023,
-      };
+      return { ...caseArctic, startYear: span === 'short' ? 2010 : 1985, endYear: 2023 };
     }
     if (phenomenon === 'smoke' || ecosystem === 'forest') {
-      return {
-        ...caseSmoke,
-        startYear: span === 'short' ? 2010 : 1990,
-        endYear: 2023,
-      };
+      return { ...caseSmoke, startYear: span === 'short' ? 2010 : 1990, endYear: 2023 };
     }
-    return {
-      ...caseDipole,
-      startYear: span === 'short' ? 2010 : 1985,
-      endYear: 2023,
-    };
+    return { ...caseDipole, startYear: span === 'short' ? 2010 : 1985, endYear: 2023 };
   };
 
   const recommended = getRecommendation();
@@ -44,15 +32,15 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="editorial-card rounded-2xl p-6 md:p-8">
-        <div className="flex items-center gap-2 text-xs font-mono-code text-[#E07A5F] mb-2">
+        <div className="flex items-center gap-2 text-xs font-mono-code text-[#E5A93B] font-semibold mb-2">
           <Sparkles className="w-4 h-4" /> GUIDED INVESTIGATION ASSISTANT
         </div>
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-          Not sure where to start? Build your investigation in 3 steps
+          Build Your Investigation in 3 Steps
         </h2>
         <p className="text-sm text-slate-300 mb-8 leading-relaxed">
-          Choose a topic below and we will match you with the right NASA satellite sensor and two
-          real regions to compare.
+          Choose an environment, a physical change, and a time window. We will configure the
+          matching NASA satellite sensors and two real regions to compare.
         </p>
 
         <div className="flex flex-col gap-6">
@@ -72,12 +60,12 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
                   onClick={() => setEcosystem(item.id as 'polar' | 'agriculture' | 'forest')}
                   className={`p-4 rounded-xl border text-left transition ${
                     ecosystem === item.id
-                      ? 'bg-[#3D85C6]/20 border-[#3D85C6] text-white'
-                      : 'bg-[#0E131F] border-slate-800 text-slate-400 hover:border-slate-600'
+                      ? 'bg-[#232836] border-[#E5A93B] text-white'
+                      : 'bg-[#111318] border-slate-800 text-slate-400 hover:border-slate-600'
                   }`}
                 >
-                  <div className="font-bold text-sm">{item.title}</div>
-                  <div className="text-xs opacity-85 mt-1">{item.desc}</div>
+                  <div className="font-bold text-sm text-white">{item.title}</div>
+                  <div className="text-xs text-slate-300 mt-1">{item.desc}</div>
                 </button>
               ))}
             </div>
@@ -99,12 +87,12 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
                   onClick={() => setPhenomenon(item.id as 'drought' | 'warming' | 'smoke')}
                   className={`p-4 rounded-xl border text-left transition ${
                     phenomenon === item.id
-                      ? 'bg-[#52B788]/20 border-[#52B788] text-white'
-                      : 'bg-[#0E131F] border-slate-800 text-slate-400 hover:border-slate-600'
+                      ? 'bg-[#232836] border-[#4F9CF9] text-white'
+                      : 'bg-[#111318] border-slate-800 text-slate-400 hover:border-slate-600'
                   }`}
                 >
-                  <div className="font-bold text-sm">{item.title}</div>
-                  <div className="text-xs opacity-85 mt-1">{item.desc}</div>
+                  <div className="font-bold text-sm text-white">{item.title}</div>
+                  <div className="text-xs text-slate-300 mt-1">{item.desc}</div>
                 </button>
               ))}
             </div>
@@ -120,12 +108,12 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
                 onClick={() => setSpan('long')}
                 className={`p-4 rounded-xl border text-left transition ${
                   span === 'long'
-                    ? 'bg-[#3D85C6]/20 border-[#3D85C6] text-white'
-                    : 'bg-[#0E131F] border-slate-800 text-slate-400'
+                    ? 'bg-[#232836] border-[#E5A93B] text-white'
+                    : 'bg-[#111318] border-slate-800 text-slate-400 hover:border-slate-600'
                 }`}
               >
-                <div className="font-bold text-sm">Long-Term Record (35+ Years)</div>
-                <div className="text-xs opacity-85 mt-1">
+                <div className="font-bold text-sm text-white">Long-Term Record (35+ Years)</div>
+                <div className="text-xs text-slate-300 mt-1">
                   Best for proving whether a climate trend is statistically real (p &lt; 0.05).
                 </div>
               </button>
@@ -134,23 +122,23 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
                 onClick={() => setSpan('short')}
                 className={`p-4 rounded-xl border text-left transition ${
                   span === 'short'
-                    ? 'bg-[#E07A5F]/20 border-[#E07A5F] text-white'
-                    : 'bg-[#0E131F] border-slate-800 text-slate-400'
+                    ? 'bg-[#232836] border-[#4F9CF9] text-white'
+                    : 'bg-[#111318] border-slate-800 text-slate-400 hover:border-slate-600'
                 }`}
               >
-                <div className="font-bold text-sm">Short Window (~13 Years)</div>
-                <div className="text-xs opacity-85 mt-1">
-                  Shows why short periods look noisy and often fail significance tests.
+                <div className="font-bold text-sm text-white">Short Window (~13 Years)</div>
+                <div className="text-xs text-slate-300 mt-1">
+                  Shows why shorter periods look noisy and often fail significance tests.
                 </div>
               </button>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 bg-[#0E131F] border border-slate-700/80 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="mt-8 bg-[#111318] border border-slate-700/80 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono-code text-[#52B788] mb-1">
-              <CheckCircle2 className="w-4 h-4" /> READY TO INVESTIGATE
+            <div className="flex items-center gap-2 text-xs font-mono-code text-[#E5A93B] font-semibold mb-1">
+              <CheckCircle2 className="w-4 h-4" /> RECOMMENDED NASA SETUP
             </div>
             <div className="text-lg font-bold text-white">{recommended.title}</div>
             <div className="text-xs text-slate-300 mt-1">
@@ -163,7 +151,7 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
           <button
             type="button"
             onClick={() => onApplyRecommendation(recommended)}
-            className="bg-[#E07A5F] hover:bg-[#d1684d] text-white font-bold px-5 py-3 rounded-xl text-xs font-mono-code flex items-center gap-2 shrink-0 transition"
+            className="bg-[#E5A93B] hover:bg-[#d6982a] text-slate-950 font-bold px-5 py-3 rounded-xl text-xs font-mono-code flex items-center gap-2 shrink-0 transition"
           >
             <Compass className="w-4 h-4" /> OPEN IN TREND LAB <ArrowRight className="w-4 h-4" />
           </button>
