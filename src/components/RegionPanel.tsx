@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, CheckCircle2, AlertCircle, TrendingUp, TrendingDown, Minus, Info } from 'lucide-react';
+import {
+  MapPin,
+  CheckCircle2,
+  AlertCircle,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  Info,
+  Download,
+} from 'lucide-react';
 import { DataPoint, NasaVariableOption, TrendAnalysis } from '../types/climate';
 import { fetchNasaAnnualTrend } from '../services/nasaPowerApi';
 import { analyzeTimeSeries } from '../engine/statistics';
@@ -69,14 +78,38 @@ export const RegionPanel: React.FC<Props> = ({
     return `Not statistically significant yet (p = ${a.pValue} ≥ 0.05). Year-to-year natural swings are currently larger than the long-term slope. Try expanding the year range to see if a clearer signal emerges.`;
   }
 
+  function downloadCsv() {
+    if (data.length === 0) return;
+    const header = `Year,${variable.id}_${variable.unit},Latitude,Longitude\n`;
+    const rows = data.map((d) => `${d.year},${d.value},${lat},${lon}`).join('\n');
+    const blob = new Blob([header + rows], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `NASA_${variable.id}_${lat}_${lon}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="editorial-card rounded-2xl p-5 flex flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-800 pb-3">
         <div>
-          <span className="text-xs font-mono-code uppercase tracking-wider text-white font-bold block">
-            {panelTitle}
-          </span>
-          <span className="text-[10px] font-mono-code text-zinc-400">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono-code uppercase tracking-wider text-white font-bold">
+              {panelTitle}
+            </span>
+            {data.length > 0 && !loading && (
+              <button
+                type="button"
+                onClick={downloadCsv}
+                className="text-[10px] font-mono-code bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 px-2 py-0.5 rounded flex items-center gap-1 transition"
+              >
+                <Download className="w-2.5 h-2.5 text-[#FF5A1F]" /> CSV
+              </button>
+            )}
+          </div>
+          <span className="text-[10px] font-mono-code text-zinc-400 block mt-0.5">
             {sourceMode === 'LIVE_NASA'
               ? '● LIVE NASA POWER TELEMETRY'
               : '● NASA POWER CALIBRATED RECORD'}
@@ -209,11 +242,9 @@ export const RegionPanel: React.FC<Props> = ({
           </div>
 
           <div className="bg-[#09090B] border border-zinc-800 rounded-xl p-3.5 text-xs text-zinc-200 leading-relaxed flex items-start gap-2.5">
-            <Info className="w-4 h-4 text-[#FF5A1F] shrink-0 mt-0.5" />
-            <p>{getPlainEnglishSummary(analysis)}</p>
-          </div>
-        </>
-      )}
-    </div>
-  );
+            {getPlainEnglishSummary(analysis)}
+          </>
+          )}
+
+);
 };
