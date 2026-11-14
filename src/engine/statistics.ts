@@ -14,6 +14,7 @@ function normalCDF(z: number): number {
 export function analyzeTimeSeries(data: DataPoint[]): TrendAnalysis {
   const n = data.length;
   if (n < 4) {
+    const fallbackVal = data.at(0)?.value || 0;
     return {
       slopePerDecade: 0,
       totalChange: 0,
@@ -26,8 +27,8 @@ export function analyzeTimeSeries(data: DataPoint[]): TrendAnalysis {
       confidenceHigh: 0,
       isSignificant: false,
       direction: 'STABLE',
-      intercept: data?.value || 0,
-      mean: data?.value || 0,
+      intercept: fallbackVal,
+      mean: fallbackVal,
     };
   }
 
@@ -37,10 +38,18 @@ export function analyzeTimeSeries(data: DataPoint[]): TrendAnalysis {
   let sumXX = 0;
 
   for (let i = 0; i < n; i++) {
-    sumX += data[i].year;
-    sumY += data[i].value;
-    sumXY += data[i].year * data[i].value;
-    sumXX += data[i].year * data[i].year;
+    const pt = data.at(i)!;
+    sumX += pt.year;
+    sumY += pt.value;
+    sumXY += pt.year * pt.value;
+    sumXX += pt.year * pt.value;
+  }
+
+  // Recálculo exacto de sumXX
+  sumXX = 0;
+  for (let i = 0; i < n; i++) {
+    const pt = data.at(i)!;
+    sumXX += pt.year * pt.year;
   }
 
   const meanX = sumX / n;
@@ -52,9 +61,10 @@ export function analyzeTimeSeries(data: DataPoint[]): TrendAnalysis {
   let ssTot = 0;
   let ssRes = 0;
   for (let i = 0; i < n; i++) {
-    const predicted = slope * data[i].year + intercept;
-    ssTot += Math.pow(data[i].value - meanY, 2);
-    ssRes += Math.pow(data[i].value - predicted, 2);
+    const pt = data.at(i)!;
+    const predicted = slope * pt.year + intercept;
+    ssTot += Math.pow(pt.value - meanY, 2);
+    ssRes += Math.pow(pt.value - predicted, 2);
   }
   const rSquared = ssTot === 0 ? 0 : Math.max(0, 1 - ssRes / ssTot);
 
@@ -65,7 +75,7 @@ export function analyzeTimeSeries(data: DataPoint[]): TrendAnalysis {
   let s = 0;
   for (let i = 0; i < n - 1; i++) {
     for (let j = i + 1; j < n; j++) {
-      const diff = data[j].value - data[i].value;
+      const diff = data.at(j)!.value - data.at(i)!.value;
       if (diff > 0) s += 1;
       else if (diff < 0) s -= 1;
     }
@@ -80,7 +90,9 @@ export function analyzeTimeSeries(data: DataPoint[]): TrendAnalysis {
   const pValue = 2 * (1 - normalCDF(Math.abs(zScore)));
   const isSignificant = pValue < 0.05;
 
-  const yearsSpan = data[n - 1].year - data.year;
+  const firstYear = data.at(0)!.year;
+  const lastYear = data.at(-1)!.year;
+  const yearsSpan = Math.max(1, lastYear - firstYear);
   const totalChange = slope * yearsSpan;
   const percentChange = meanY !== 0 ? (totalChange / Math.abs(meanY)) * 100 : 0;
 
