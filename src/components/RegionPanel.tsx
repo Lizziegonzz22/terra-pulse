@@ -71,24 +71,24 @@ export const RegionPanel: React.FC<Props> = ({
 
   return (
     <div className="editorial-card rounded-2xl p-5 flex flex-col gap-4">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#5F8575]/40 pb-3">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono-code uppercase tracking-wider text-[#F1F4F9] font-bold">{panelTitle}</span>
+            <span className="text-xs font-mono-code uppercase tracking-wider text-[#F1F5F2] font-bold">{panelTitle}</span>
             {data.length > 0 && !loading && (
-              <button type="button" onClick={downloadCsv} className="text-[10px] font-mono-code bg-[#0D1017] hover:bg-slate-800 border border-slate-700/80 text-slate-300 px-2 py-0.5 rounded flex items-center gap-1 transition">
-                <Download className="w-2.5 h-2.5 text-[#87A8D0]" /> CSV
+              <button type="button" onClick={downloadCsv} className="text-[10px] font-mono-code bg-[#102030] hover:bg-[#2F6352] border border-[#5F8575]/60 text-[#F1F5F2] px-2 py-0.5 rounded flex items-center gap-1 transition">
+                <Download className="w-2.5 h-2.5 text-[#98B092]" /> CSV
               </button>
             )}
           </div>
-          <span className="text-[10px] font-mono-code text-slate-400 block mt-0.5">
+          <span className="text-[10px] font-mono-code text-[#889BAE] block mt-0.5">
             {sourceMode === 'LIVE_NASA' ? '● LIVE NASA POWER TELEMETRY' : '● NASA POWER CALIBRATED RECORD'}
           </span>
         </div>
 
         {analysis && !loading && (
-          <span className={`text-xs font-mono-code px-3 py-1 rounded-full flex items-center gap-1.5 border font-semibold ${analysis.isSignificant ? 'bg-[#5C7FA8]/20 text-[#B4CAE4] border-[#5C7FA8]/40' : 'bg-[#0D1017] text-slate-300 border-slate-700/80'}`}>
-            {analysis.isSignificant ? <CheckCircle2 className="w-3.5 h-3.5 text-[#87A8D0]" /> : <AlertCircle className="w-3.5 h-3.5 text-slate-400" />}
+          <span className={`text-xs font-mono-code px-3 py-1 rounded-full flex items-center gap-1.5 border font-semibold ${analysis.isSignificant ? 'bg-[#2F6352] text-[#F1F5F2] border-[#98B092]' : 'bg-[#102030] text-[#889BAE] border-[#889BAE]/40'}`}>
+            {analysis.isSignificant ? <CheckCircle2 className="w-3.5 h-3.5 text-[#98B092]" /> : <AlertCircle className="w-3.5 h-3.5 text-[#889BAE]" />}
             {analysis.isSignificant ? `SIGNIFICANT (p = ${analysis.pValue})` : `NATURAL SWINGS (p = ${analysis.pValue})`}
           </span>
         )}
@@ -101,26 +101,26 @@ export const RegionPanel: React.FC<Props> = ({
             const found = QUICK_LOCATIONS.find((l) => l.name === e.target.value);
             if (found) onUpdateCoords(found.name, found.lat, found.lon);
           }}
-          className="bg-[#0D1017] border border-slate-700/80 rounded-xl px-3 py-2.5 text-sm font-medium text-[#F1F4F9] focus:outline-none focus:border-[#6889B3]"
+          className="bg-[#102030] border border-[#5F8575]/60 rounded-xl px-3 py-2.5 text-sm font-medium text-[#F1F5F2] focus:outline-none focus:border-[#98B092]"
         >
           {!QUICK_LOCATIONS.some((l) => l.name === regionName) && <option value={regionName}>{regionName}</option>}
           {QUICK_LOCATIONS.map((loc) => <option key={loc.name} value={loc.name}>{loc.name}</option>)}
         </select>
 
         <div className="grid grid-cols-2 gap-2 font-mono-code text-xs">
-          <div className="bg-[#0D1017] border border-slate-800/80 rounded-lg px-3 py-1.5 flex items-center justify-between">
-            <span className="text-slate-400 flex items-center gap-1"><MapPin className="w-3 h-3 text-[#87A8D0]" /> LAT:</span>
-            <input type="number" step="0.5" value={lat} onChange={(e) => onUpdateCoords('Custom Coordinates', parseFloat(e.target.value) || 0, lon)} className="bg-transparent text-right text-[#F1F4F9] font-bold w-20 focus:outline-none" />
+          <div className="bg-[#102030] border border-[#5F8575]/40 rounded-lg px-3 py-1.5 flex items-center justify-between">
+            <span className="text-[#889BAE] flex items-center gap-1"><MapPin className="w-3 h-3 text-[#98B092]" /> LAT:</span>
+            <input type="number" step="0.5" value={lat} onChange={(e) => onUpdateCoords('Custom Coordinates', parseFloat(e.target.value) || 0, lon)} className="bg-transparent text-right text-[#F1F5F2] font-bold w-20 focus:outline-none" />
           </div>
-          <div className="bg-[#0D1017] border border-slate-800/80 rounded-lg px-3 py-1.5 flex items-center justify-between">
-            <span className="text-slate-400">LON:</span>
-            <input type="number" step="0.5" value={lon} onChange={(e) => onUpdateCoords('Custom Coordinates', lat, parseFloat(e.target.value) || 0)} className="bg-transparent text-right text-[#F1F4F9] font-bold w-20 focus:outline-none" />
+          <div className="bg-[#102030] border border-[#5F8575]/40 rounded-lg px-3 py-1.5 flex items-center justify-between">
+            <span className="text-[#889BAE]">LON:</span>
+            <input type="number" step="0.5" value={lon} onChange={(e) => onUpdateCoords('Custom Coordinates', lat, parseFloat(e.target.value) || 0)} className="bg-transparent text-right text-[#F1F5F2] font-bold w-20 focus:outline-none" />
           </div>
         </div>
       </div>
 
       {loading ? (
-        <div className="h-56 rounded-xl bg-[#0D1017] border border-slate-800/80 flex flex-col items-center justify-center gap-2 font-mono-code text-xs text-slate-300 animate-pulse">
+        <div className="h-56 rounded-xl bg-[#102030] border border-[#5F8575]/40 flex flex-col items-center justify-center gap-2 font-mono-code text-xs text-[#98B092] animate-pulse">
           <span>LOADING NASA {variable.missionSource} SERIES...</span>
         </div>
       ) : (
@@ -130,34 +130,34 @@ export const RegionPanel: React.FC<Props> = ({
       {analysis && !loading && (
         <div className="flex flex-col gap-3">
           <div className="grid grid-cols-3 gap-2.5 font-mono-code">
-            <div className="bg-[#0D1017] border border-slate-800/80 rounded-xl p-3">
-              <span className="text-[10px] text-slate-400 block">CHANGE / DECADE</span>
-              <div className="text-sm md:text-base font-bold text-[#F1F4F9] flex items-center gap-1 mt-0.5">
-                {analysis.slopePerDecade > 0 ? <TrendingUp className="w-4 h-4 text-[#87A8D0]" /> : analysis.slopePerDecade < 0 ? <TrendingDown className="w-4 h-4 text-[#9A95C4]" /> : <Minus className="w-4 h-4 text-slate-400" />}
+            <div className="bg-[#102030] border border-[#5F8575]/40 rounded-xl p-3">
+              <span className="text-[10px] text-[#889BAE] block">CHANGE / DECADE</span>
+              <div className="text-sm md:text-base font-bold text-[#F1F5F2] flex items-center gap-1 mt-0.5">
+                {analysis.slopePerDecade > 0 ? <TrendingUp className="w-4 h-4 text-[#98B092]" /> : analysis.slopePerDecade < 0 ? <TrendingDown className="w-4 h-4 text-[#889BAE]" /> : <Minus className="w-4 h-4 text-[#889BAE]" />}
                 {analysis.slopePerDecade > 0 ? '+' : ''}{analysis.slopePerDecade}
               </div>
-              <span className="text-[10px] text-slate-500">95% CI [{analysis.confidenceLow}, {analysis.confidenceHigh}]</span>
+              <span className="text-[10px] text-[#889BAE]">95% CI [{analysis.confidenceLow}, {analysis.confidenceHigh}]</span>
             </div>
 
-            <div className="bg-[#0D1017] border border-slate-800/80 rounded-xl p-3">
-              <span className="text-[10px] text-slate-400 block">TOTAL SHIFT</span>
-              <div className="text-sm md:text-base font-bold text-[#F1F4F9] mt-0.5">
+            <div className="bg-[#102030] border border-[#5F8575]/40 rounded-xl p-3">
+              <span className="text-[10px] text-[#889BAE] block">TOTAL SHIFT</span>
+              <div className="text-sm md:text-base font-bold text-[#F1F5F2] mt-0.5">
                 {analysis.totalChange > 0 ? '+' : ''}{analysis.totalChange} {variable.unit}
               </div>
-              <span className="text-[10px] text-slate-500">({analysis.percentChange > 0 ? '+' : ''}{analysis.percentChange}% vs avg)</span>
+              <span className="text-[10px] text-[#889BAE]">({analysis.percentChange > 0 ? '+' : ''}{analysis.percentChange}% vs avg)</span>
             </div>
 
-            <div className="bg-[#0D1017] border border-slate-800/80 rounded-xl p-3">
-              <span className="text-[10px] text-slate-400 block">MANN-KENDALL</span>
-              <div className="text-sm md:text-base font-bold text-[#F1F4F9] mt-0.5">Z = {analysis.zScore}</div>
-              <span className={`text-[10px] font-semibold ${analysis.isSignificant ? 'text-[#87A8D0]' : 'text-slate-400'}`}>
+            <div className="bg-[#102030] border border-[#5F8575]/40 rounded-xl p-3">
+              <span className="text-[10px] text-[#889BAE] block">MANN-KENDALL</span>
+              <div className="text-sm md:text-base font-bold text-[#F1F5F2] mt-0.5">Z = {analysis.zScore}</div>
+              <span className={`text-[10px] font-semibold ${analysis.isSignificant ? 'text-[#98B092]' : 'text-[#889BAE]'}`}>
                 {analysis.isSignificant ? 'p < 0.05 PROVEN' : 'p ≥ 0.05 UNPROVEN'}
               </span>
             </div>
           </div>
 
-          <div className="bg-[#0D1017] border border-slate-800/80 rounded-xl p-3.5 text-xs text-slate-300 leading-relaxed flex items-start gap-2.5">
-            <Info className="w-4 h-4 text-[#87A8D0] shrink-0 mt-0.5" />
+          <div className="bg-[#102030] border border-[#5F8575]/40 rounded-xl p-3.5 text-xs text-[#D4E0DA] leading-relaxed flex items-start gap-2.5">
+            <Info className="w-4 h-4 text-[#98B092] shrink-0 mt-0.5" />
             <p>{getPlainEnglishSummary(analysis)}</p>
           </div>
         </div>
