@@ -36,12 +36,12 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
   const hoveredPoint = hoverIdx !== null ? data.at(hoverIdx) : null;
 
   return (
-    <div className="relative bg-[#0F131A] border border-slate-800 rounded-xl p-3.5">
+    <div className="relative bg-[#0D1017] border border-slate-800/80 rounded-xl p-3.5">
       {hoveredPoint && (
-        <div className="absolute top-3 right-3 bg-[#181E2C] border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-mono-code z-10 shadow-lg">
+        <div className="absolute top-3 right-3 bg-[#171D2B] border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-mono-code z-10 shadow-lg">
           <span className="text-slate-400">YEAR {hoveredPoint.year}: </span>
           <span className="text-white font-bold">{hoveredPoint.value} {unit}</span>
-          <span className="ml-2 font-semibold text-sky-400">
+          <span className="ml-2 font-semibold text-[#87A8D0]">
             ({hoveredPoint.value >= analysis.mean ? '+' : ''}{(hoveredPoint.value - analysis.mean).toFixed(2)})
           </span>
         </div>
@@ -53,15 +53,15 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
           const y = yScale(val);
           return (
             <g key={i}>
-              <line x1={padL} y1={y} x2={width - padR} y2={y} stroke="#1E293B" strokeWidth="1" />
-              <text x={padL - 6} y={y + 3} textAnchor="end" fill="#94A3B8" fontSize="10" fontFamily="JetBrains Mono, monospace">
+              <line x1={padL} y1={y} x2={width - padR} y2={y} stroke="#19202E" strokeWidth="1" />
+              <text x={padL - 6} y={y + 3} textAnchor="end" fill="#8A96AB" fontSize="10" fontFamily="JetBrains Mono, monospace">
                 {val.toFixed(1)}
               </text>
             </g>
           );
         })}
 
-        <line x1={padL} y1={meanY} x2={width - padR} y2={meanY} stroke="#64748B" strokeDasharray="4 4" strokeWidth="1.2" />
+        <line x1={padL} y1={meanY} x2={width - padR} y2={meanY} stroke="#5B677D" strokeDasharray="4 4" strokeWidth="1.2" />
 
         {data.map((pt, idx) => {
           const x = xScale(idx);
@@ -75,21 +75,21 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
               y={isAbove ? y : meanY}
               width={barW}
               height={Math.max(2, Math.abs(y - meanY))}
-              fill={isAbove ? 'rgba(56, 189, 248, 0.35)' : 'rgba(129, 140, 248, 0.35)'}
+              fill={isAbove ? 'rgba(104, 146, 198, 0.34)' : 'rgba(138, 132, 184, 0.34)'}
               rx="1.5"
             />
           );
         })}
 
-        <polyline fill="none" stroke="#CBD5E1" strokeWidth="1.6" points={data.map((pt, idx) => `${xScale(idx)},${yScale(pt.value)}`).join(' ')} />
+        <polyline fill="none" stroke="#B8C3D4" strokeWidth="1.5" points={data.map((pt, idx) => `${xScale(idx)},${yScale(pt.value)}`).join(' ')} />
 
         <line
           x1={xScale(0)}
           y1={yScale(trendStartVal)}
           x2={xScale(data.length - 1)}
           y2={yScale(trendEndVal)}
-          stroke="#38BDF8"
-          strokeWidth="2.8"
+          stroke="#9BB5D6"
+          strokeWidth="2.6"
           strokeLinecap="round"
         />
 
@@ -98,9 +98,9 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
             key={pt.year}
             cx={xScale(idx)}
             cy={yScale(pt.value)}
-            r={hoverIdx === idx ? 5.5 : 3}
-            fill={pt.value >= analysis.mean ? '#38BDF8' : '#818CF8'}
-            stroke="#0F131A"
+            r={hoverIdx === idx ? 5 : 2.8}
+            fill={pt.value >= analysis.mean ? '#7FA4D2' : '#958FC2'}
+            stroke="#0D1017"
             strokeWidth="1"
             className="cursor-pointer transition-all"
             onMouseEnter={() => setHoverIdx(idx)}
@@ -109,15 +109,15 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
         ))}
 
         {[0, Math.floor(data.length / 2), data.length - 1].map((idx) => (
-          <text key={idx} x={xScale(idx)} y={height - 8} textAnchor="middle" fill="#94A3B8" fontSize="10" fontFamily="JetBrains Mono, monospace">
+          <text key={idx} x={xScale(idx)} y={height - 8} textAnchor="middle" fill="#8A96AB" fontSize="10" fontFamily="JetBrains Mono, monospace">
             {data.at(idx)?.year}
           </text>
         ))}
       </svg>
 
-      <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-code text-slate-400 mt-1 pt-2 border-t border-slate-800">
-        <span className="flex items-center gap-1.5 text-sky-300 font-semibold">
-          <span className="w-3.5 h-1 inline-block rounded bg-sky-400" />
+      <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-code text-slate-400 mt-1 pt-2 border-t border-slate-800/80">
+        <span className="flex items-center gap-1.5 text-[#A7C0DF] font-semibold">
+          <span className="w-3.5 h-1 inline-block rounded bg-[#9BB5D6]" />
           Trend Line ({analysis.slopePerDecade > 0 ? '+' : ''}{analysis.slopePerDecade} {unit}/decade)
         </span>
         <span>Dashed: Historical Mean ({analysis.mean} {unit})</span>
