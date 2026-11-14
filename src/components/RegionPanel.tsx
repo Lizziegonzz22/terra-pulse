@@ -71,13 +71,13 @@ export const RegionPanel: React.FC<Props> = ({
 
   return (
     <div className="editorial-card rounded-2xl p-5 flex flex-col gap-4">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono-code uppercase tracking-wider text-white font-bold">{panelTitle}</span>
+            <span className="text-xs font-mono-code uppercase tracking-wider text-[#F1F4F9] font-bold">{panelTitle}</span>
             {data.length > 0 && !loading && (
-              <button type="button" onClick={downloadCsv} className="text-[10px] font-mono-code bg-[#0F131A] hover:bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded flex items-center gap-1 transition">
-                <Download className="w-2.5 h-2.5 text-sky-400" /> CSV
+              <button type="button" onClick={downloadCsv} className="text-[10px] font-mono-code bg-[#0D1017] hover:bg-slate-800 border border-slate-700/80 text-slate-300 px-2 py-0.5 rounded flex items-center gap-1 transition">
+                <Download className="w-2.5 h-2.5 text-[#87A8D0]" /> CSV
               </button>
             )}
           </div>
@@ -87,8 +87,8 @@ export const RegionPanel: React.FC<Props> = ({
         </div>
 
         {analysis && !loading && (
-          <span className={`text-xs font-mono-code px-3 py-1 rounded-full flex items-center gap-1.5 border font-semibold ${analysis.isSignificant ? 'bg-sky-500/15 text-sky-300 border-sky-500/40' : 'bg-[#0F131A] text-slate-300 border-slate-700'}`}>
-            {analysis.isSignificant ? <CheckCircle2 className="w-3.5 h-3.5 text-sky-400" /> : <AlertCircle className="w-3.5 h-3.5 text-slate-400" />}
+          <span className={`text-xs font-mono-code px-3 py-1 rounded-full flex items-center gap-1.5 border font-semibold ${analysis.isSignificant ? 'bg-[#5C7FA8]/20 text-[#B4CAE4] border-[#5C7FA8]/40' : 'bg-[#0D1017] text-slate-300 border-slate-700/80'}`}>
+            {analysis.isSignificant ? <CheckCircle2 className="w-3.5 h-3.5 text-[#87A8D0]" /> : <AlertCircle className="w-3.5 h-3.5 text-slate-400" />}
             {analysis.isSignificant ? `SIGNIFICANT (p = ${analysis.pValue})` : `NATURAL SWINGS (p = ${analysis.pValue})`}
           </span>
         )}
@@ -101,26 +101,26 @@ export const RegionPanel: React.FC<Props> = ({
             const found = QUICK_LOCATIONS.find((l) => l.name === e.target.value);
             if (found) onUpdateCoords(found.name, found.lat, found.lon);
           }}
-          className="bg-[#0F131A] border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-sky-400"
+          className="bg-[#0D1017] border border-slate-700/80 rounded-xl px-3 py-2.5 text-sm font-medium text-[#F1F4F9] focus:outline-none focus:border-[#6889B3]"
         >
           {!QUICK_LOCATIONS.some((l) => l.name === regionName) && <option value={regionName}>{regionName}</option>}
           {QUICK_LOCATIONS.map((loc) => <option key={loc.name} value={loc.name}>{loc.name}</option>)}
         </select>
 
         <div className="grid grid-cols-2 gap-2 font-mono-code text-xs">
-          <div className="bg-[#0F131A] border border-slate-800 rounded-lg px-3 py-1.5 flex items-center justify-between">
-            <span className="text-slate-400 flex items-center gap-1"><MapPin className="w-3 h-3 text-sky-400" /> LAT:</span>
-            <input type="number" step="0.5" value={lat} onChange={(e) => onUpdateCoords('Custom Coordinates', parseFloat(e.target.value) || 0, lon)} className="bg-transparent text-right text-white font-bold w-20 focus:outline-none" />
+          <div className="bg-[#0D1017] border border-slate-800/80 rounded-lg px-3 py-1.5 flex items-center justify-between">
+            <span className="text-slate-400 flex items-center gap-1"><MapPin className="w-3 h-3 text-[#87A8D0]" /> LAT:</span>
+            <input type="number" step="0.5" value={lat} onChange={(e) => onUpdateCoords('Custom Coordinates', parseFloat(e.target.value) || 0, lon)} className="bg-transparent text-right text-[#F1F4F9] font-bold w-20 focus:outline-none" />
           </div>
-          <div className="bg-[#0F131A] border border-slate-800 rounded-lg px-3 py-1.5 flex items-center justify-between">
+          <div className="bg-[#0D1017] border border-slate-800/80 rounded-lg px-3 py-1.5 flex items-center justify-between">
             <span className="text-slate-400">LON:</span>
-            <input type="number" step="0.5" value={lon} onChange={(e) => onUpdateCoords('Custom Coordinates', lat, parseFloat(e.target.value) || 0)} className="bg-transparent text-right text-white font-bold w-20 focus:outline-none" />
+            <input type="number" step="0.5" value={lon} onChange={(e) => onUpdateCoords('Custom Coordinates', lat, parseFloat(e.target.value) || 0)} className="bg-transparent text-right text-[#F1F4F9] font-bold w-20 focus:outline-none" />
           </div>
         </div>
       </div>
 
       {loading ? (
-        <div className="h-56 rounded-xl bg-[#0F131A] border border-slate-800 flex flex-col items-center justify-center gap-2 font-mono-code text-xs text-slate-300 animate-pulse">
+        <div className="h-56 rounded-xl bg-[#0D1017] border border-slate-800/80 flex flex-col items-center justify-center gap-2 font-mono-code text-xs text-slate-300 animate-pulse">
           <span>LOADING NASA {variable.missionSource} SERIES...</span>
         </div>
       ) : (
@@ -130,34 +130,34 @@ export const RegionPanel: React.FC<Props> = ({
       {analysis && !loading && (
         <div className="flex flex-col gap-3">
           <div className="grid grid-cols-3 gap-2.5 font-mono-code">
-            <div className="bg-[#0F131A] border border-slate-800 rounded-xl p-3">
+            <div className="bg-[#0D1017] border border-slate-800/80 rounded-xl p-3">
               <span className="text-[10px] text-slate-400 block">CHANGE / DECADE</span>
-              <div className="text-sm md:text-base font-bold text-white flex items-center gap-1 mt-0.5">
-                {analysis.slopePerDecade > 0 ? <TrendingUp className="w-4 h-4 text-sky-400" /> : analysis.slopePerDecade < 0 ? <TrendingDown className="w-4 h-4 text-indigo-400" /> : <Minus className="w-4 h-4 text-slate-400" />}
+              <div className="text-sm md:text-base font-bold text-[#F1F4F9] flex items-center gap-1 mt-0.5">
+                {analysis.slopePerDecade > 0 ? <TrendingUp className="w-4 h-4 text-[#87A8D0]" /> : analysis.slopePerDecade < 0 ? <TrendingDown className="w-4 h-4 text-[#9A95C4]" /> : <Minus className="w-4 h-4 text-slate-400" />}
                 {analysis.slopePerDecade > 0 ? '+' : ''}{analysis.slopePerDecade}
               </div>
               <span className="text-[10px] text-slate-500">95% CI [{analysis.confidenceLow}, {analysis.confidenceHigh}]</span>
             </div>
 
-            <div className="bg-[#0F131A] border border-slate-800 rounded-xl p-3">
+            <div className="bg-[#0D1017] border border-slate-800/80 rounded-xl p-3">
               <span className="text-[10px] text-slate-400 block">TOTAL SHIFT</span>
-              <div className="text-sm md:text-base font-bold text-white mt-0.5">
+              <div className="text-sm md:text-base font-bold text-[#F1F4F9] mt-0.5">
                 {analysis.totalChange > 0 ? '+' : ''}{analysis.totalChange} {variable.unit}
               </div>
               <span className="text-[10px] text-slate-500">({analysis.percentChange > 0 ? '+' : ''}{analysis.percentChange}% vs avg)</span>
             </div>
 
-            <div className="bg-[#0F131A] border border-slate-800 rounded-xl p-3">
+            <div className="bg-[#0D1017] border border-slate-800/80 rounded-xl p-3">
               <span className="text-[10px] text-slate-400 block">MANN-KENDALL</span>
-              <div className="text-sm md:text-base font-bold text-white mt-0.5">Z = {analysis.zScore}</div>
-              <span className={`text-[10px] font-semibold ${analysis.isSignificant ? 'text-sky-400' : 'text-slate-400'}`}>
+              <div className="text-sm md:text-base font-bold text-[#F1F4F9] mt-0.5">Z = {analysis.zScore}</div>
+              <span className={`text-[10px] font-semibold ${analysis.isSignificant ? 'text-[#87A8D0]' : 'text-slate-400'}`}>
                 {analysis.isSignificant ? 'p < 0.05 PROVEN' : 'p ≥ 0.05 UNPROVEN'}
               </span>
             </div>
           </div>
 
-          <div className="bg-[#0F131A] border border-slate-800 rounded-xl p-3.5 text-xs text-slate-200 leading-relaxed flex items-start gap-2.5">
-            <Info className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
+          <div className="bg-[#0D1017] border border-slate-800/80 rounded-xl p-3.5 text-xs text-slate-300 leading-relaxed flex items-start gap-2.5">
+            <Info className="w-4 h-4 text-[#87A8D0] shrink-0 mt-0.5" />
             <p>{getPlainEnglishSummary(analysis)}</p>
           </div>
         </div>
