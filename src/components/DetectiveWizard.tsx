@@ -32,11 +32,11 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="editorial-card rounded-2xl p-6 md:p-8">
-        <div className="flex items-center gap-2 text-xs font-mono-code text-sky-400 font-semibold mb-2">
+        <div className="flex items-center gap-2 text-xs font-mono-code text-[#87A8D0] font-semibold mb-2">
           <Sparkles className="w-4 h-4" /> GUIDED INVESTIGATION ASSISTANT
         </div>
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Build Your Investigation in 3 Steps</h2>
-        <p className="text-sm text-slate-300 mb-8 leading-relaxed">
+        <h2 className="text-2xl md:text-3xl font-bold text-[#F1F4F9] mb-2">Build Your Investigation in 3 Steps</h2>
+        <p className="text-sm text-slate-300/90 mb-8 leading-relaxed">
           Choose an environment, a physical change, and a time window. We will configure the matching NASA satellite sensors and two real regions to compare.
         </p>
 
@@ -54,11 +54,11 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
                   type="button"
                   onClick={() => setEcosystem(item.id as 'polar' | 'agriculture' | 'forest')}
                   className={`p-4 rounded-xl border text-left transition ${
-                    ecosystem === item.id ? 'bg-sky-500/15 border-sky-400 text-white' : 'bg-[#0F131A] border-slate-800 text-slate-400 hover:border-slate-600'
+                    ecosystem === item.id ? 'bg-[#1D273B] border-[#6889B3] text-white' : 'bg-[#0D1017] border-slate-800/90 text-slate-400 hover:border-slate-700'
                   }`}
                 >
-                  <div className="font-bold text-sm text-white">{item.title}</div>
-                  <div className="text-xs text-slate-300 mt-1">{item.desc}</div>
+                  <div className="font-bold text-sm text-[#F1F4F9]">{item.title}</div>
+                  <div className="text-xs text-slate-300/85 mt-1">{item.desc}</div>
                 </button>
               ))}
             </div>
@@ -77,11 +77,11 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
                   type="button"
                   onClick={() => setPhenomenon(item.id as 'drought' | 'warming' | 'smoke')}
                   className={`p-4 rounded-xl border text-left transition ${
-                    phenomenon === item.id ? 'bg-sky-500/15 border-sky-400 text-white' : 'bg-[#0F131A] border-slate-800 text-slate-400 hover:border-slate-600'
+                    phenomenon === item.id ? 'bg-[#212338] border-[#8A84B8] text-white' : 'bg-[#0D1017] border-slate-800/90 text-slate-400 hover:border-slate-700'
                   }`}
                 >
-                  <div className="font-bold text-sm text-white">{item.title}</div>
-                  <div className="text-xs text-slate-300 mt-1">{item.desc}</div>
+                  <div className="font-bold text-sm text-[#F1F4F9]">{item.title}</div>
+                  <div className="text-xs text-slate-300/85 mt-1">{item.desc}</div>
                 </button>
               ))}
             </div>
@@ -94,33 +94,33 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
                 type="button"
                 onClick={() => setSpan('long')}
                 className={`p-4 rounded-xl border text-left transition ${
-                  span === 'long' ? 'bg-sky-500/15 border-sky-400 text-white' : 'bg-[#0F131A] border-slate-800 text-slate-400 hover:border-slate-600'
+                  span === 'long' ? 'bg-[#1D273B] border-[#6889B3] text-white' : 'bg-[#0D1017] border-slate-800/90 text-slate-400 hover:border-slate-700'
                 }`}
               >
-                <div className="font-bold text-sm text-white">Long-Term Record (35+ Years)</div>
-                <div className="text-xs text-slate-300 mt-1">Best for proving whether a climate trend is statistically real (p &lt; 0.05).</div>
+                <div className="font-bold text-sm text-[#F1F4F9]">Long-Term Record (35+ Years)</div>
+                <div className="text-xs text-slate-300/85 mt-1">Best for proving whether a climate trend is statistically real (p &lt; 0.05).</div>
               </button>
               <button
                 type="button"
                 onClick={() => setSpan('short')}
                 className={`p-4 rounded-xl border text-left transition ${
-                  span === 'short' ? 'bg-sky-500/15 border-sky-400 text-white' : 'bg-[#0F131A] border-slate-800 text-slate-400 hover:border-slate-600'
+                  span === 'short' ? 'bg-[#212338] border-[#8A84B8] text-white' : 'bg-[#0D1017] border-slate-800/90 text-slate-400 hover:border-slate-700'
                 }`}
               >
-                <div className="font-bold text-sm text-white">Short Window (~13 Years)</div>
-                <div className="text-xs text-slate-300 mt-1">Shows why shorter periods look noisy and often fail significance tests.</div>
+                <div className="font-bold text-sm text-[#F1F4F9]">Short Window (~13 Years)</div>
+                <div className="text-xs text-slate-300/85 mt-1">Shows why shorter periods look noisy and often fail significance tests.</div>
               </button>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 bg-[#0F131A] border border-slate-700/80 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="mt-8 bg-[#0D1017] border border-slate-800 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono-code text-sky-400 font-semibold mb-1">
+            <div className="flex items-center gap-2 text-xs font-mono-code text-[#87A8D0] font-semibold mb-1">
               <CheckCircle2 className="w-4 h-4" /> RECOMMENDED NASA SETUP
             </div>
-            <div className="text-lg font-bold text-white">{recommended.title}</div>
-            <div className="text-xs text-slate-300 mt-1">
+            <div className="text-lg font-bold text-[#F1F4F9]">{recommended.title}</div>
+            <div className="text-xs text-slate-300/90 mt-1">
               Satellite Source: <strong className="text-white">{recVariable.missionSource}</strong> · Metric: <strong className="text-white">{recVariable.label}</strong> ({recommended.startYear}–{recommended.endYear})
             </div>
           </div>
@@ -128,7 +128,7 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
           <button
             type="button"
             onClick={() => onApplyRecommendation(recommended)}
-            className="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-5 py-3 rounded-xl text-xs font-mono-code flex items-center gap-2 shrink-0 transition"
+            className="bg-[#5C7FA8] hover:bg-[#6C90BA] text-white font-semibold px-5 py-3 rounded-xl text-xs font-mono-code flex items-center gap-2 shrink-0 transition"
           >
             <Compass className="w-4 h-4" /> OPEN IN TREND LAB <ArrowRight className="w-4 h-4" />
           </button>
