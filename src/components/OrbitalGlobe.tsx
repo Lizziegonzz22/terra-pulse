@@ -19,29 +19,36 @@ const LAND_DATA = [
 ];
 
 const CONTINENTS: [number, number][][] = LAND_DATA.map((str) => {
-  const pts = str.split(' ').map((p) => p.split(',').map(Number) as [number, number]);
+  const pts = str.split(' ').map((p) => {
+    const pair = p.split(',');
+    return [Number(pair.at(0)), Number(pair.at(1))] as [number, number];
+  });
   const smooth: [number, number][] = [];
   for (let i = 0; i < pts.length; i++) {
     const a = pts.at(i)!;
     const b = pts.at((i + 1) % pts.length)!;
+    const ax = a.at(0)!;
+    const ay = a.at(1)!;
+    const bx = b.at(0)!;
+    const by = b.at(1)!;
     for (let s = 0; s < 5; s++) {
       const t = s / 5;
-      smooth.push([a + (b - a) * t, a + (b - a) * t]);
+      smooth.push([ax + (bx - ax) * t, ay + (by - ay) * t]);
     }
   }
   return smooth;
 });
 
 const HOTSPOTS = [
-  { id: 'uru', label: 'Río de la Plata (+Rain)', lat: -34.9, lon: -56.2, color: '#4F9CF9', idx: 0 },
-  { id: 'chi', label: 'Central Chile (-Drought)', lat: -33.4, lon: -70.6, color: '#E5A93B', idx: 0 },
-  { id: 'arc', label: 'Svalbard (+3.4°C)', lat: 78.2, lon: 15.6, color: '#E5A93B', idx: 1 },
-  { id: 'can', label: 'Boreal Canada (Smoke)', lat: 54.5, lon: -105.5, color: '#94A3B8', idx: 2 },
+  { id: 'uru', label: 'Río de la Plata (+Rain)', lat: -34.9, lon: -56.2, color: '#38BDF8', idx: 0 },
+  { id: 'chi', label: 'Central Chile (-Drought)', lat: -33.4, lon: -70.6, color: '#818CF8', idx: 0 },
+  { id: 'arc', label: 'Svalbard (+3.4°C)', lat: 78.2, lon: 15.6, color: '#60A5FA', idx: 1 },
+  { id: 'can', label: 'Boreal Canada (Smoke)', lat: 54.5, lon: -105.5, color: '#93C5FD', idx: 2 },
 ];
 
 export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const rot = useRef({ lon: 52, lat: -14, drag: false, x: 0, y: 0 });
+  const rot = useRef({ lon: 55, lat: -12, drag: false, x: 0, y: 0 });
   const [autoSpin, setAutoSpin] = useState(true);
 
   useEffect(() => {
@@ -56,7 +63,7 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
       const cy = canvas.height / 2;
       const r = 118;
 
-      if (autoSpin && !rot.current.drag) rot.current.lon = (rot.current.lon + 0.24) % 360;
+      if (autoSpin && !rot.current.drag) rot.current.lon = (rot.current.lon + 0.25) % 360;
       sat = (sat + 0.016) % (Math.PI * 2);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -76,8 +83,8 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
       };
 
       const bg = ctx.createRadialGradient(cx - 35, cy - 35, 12, cx, cy, r);
-      bg.addColorStop(0, '#232B3E');
-      bg.addColorStop(1, '#0F131C');
+      bg.addColorStop(0, '#1E293B');
+      bg.addColorStop(1, '#0B1120');
       ctx.fillStyle = bg;
       ctx.beginPath();
       ctx.arc(cx, cy, r, 0, Math.PI * 2);
@@ -88,17 +95,30 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
       ctx.arc(cx, cy, r, 0, Math.PI * 2);
       ctx.clip();
 
-      CONTINENTS.forEach((poly) => {
-        if (!poly.some(([lo, la]) => proj(lo, la).vis)) return;
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.08)';
+      ctx.lineWidth = 1;
+      for (let lat = -60; lat <= 60; lat += 30) {
         ctx.beginPath();
-        poly.forEach(([lo, la], i) => {
-          const p = proj(lo, la);
+        let st = false;
+        for (let lon = -180; lon <= 180; lon += 10) {
+          const p = proj(lon, lat);
+          if (p.vis) { st ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y); st = true; }
+          else st = false;
+        }
+        ctx.stroke();
+      }
+
+      CONTINENTS.forEach((poly) => {
+        if (!poly.some((pt) => proj(pt.at(0)!, pt.at(1)!).vis)) return;
+        ctx.beginPath();
+        poly.forEach((pt, i) => {
+          const p = proj(pt.at(0)!, pt.at(1)!);
           i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
         });
         ctx.closePath();
-        ctx.fillStyle = '#2B3242';
+        ctx.fillStyle = '#25334D';
         ctx.fill();
-        ctx.strokeStyle = '#64748B';
+        ctx.strokeStyle = '#60A5FA';
         ctx.lineWidth = 1;
         ctx.stroke();
       });
@@ -124,7 +144,7 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
       ctx.stroke();
 
       if (Math.sin(sat) > 0) {
-        ctx.fillStyle = '#E5A93B';
+        ctx.fillStyle = '#38BDF8';
         ctx.beginPath();
         ctx.arc(cx + Math.cos(sat) * 148, cy + Math.sin(sat) * 38 - Math.cos(sat) * 20, 4, 0, Math.PI * 2);
         ctx.fill();
@@ -158,9 +178,9 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
         <button
           type="button"
           onClick={() => setAutoSpin(!autoSpin)}
-          className="absolute bottom-2 right-2 text-[10px] font-mono-code bg-[#1E222D] border border-slate-700 text-slate-300 px-2.5 py-1 rounded-lg flex items-center gap-1"
+          className="absolute bottom-2 right-2 text-[10px] font-mono-code bg-[#161D2C] border border-slate-700 text-slate-300 px-2.5 py-1 rounded-lg flex items-center gap-1"
         >
-          <RotateCw className="w-3 h-3" /> {autoSpin ? 'AUTO' : 'MANUAL'}
+          <RotateCw className="w-3 h-3 text-sky-400" /> {autoSpin ? 'AUTO' : 'MANUAL'}
         </button>
       </div>
       <div className="flex flex-wrap justify-center gap-1.5 mt-2">
@@ -169,7 +189,7 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
             key={s.id}
             type="button"
             onClick={() => onSelectCase(DEMO_CASES.at(s.idx)!)}
-            className="text-[11px] font-mono-code bg-[#1E222D] hover:bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full flex items-center gap-1.5 text-slate-200"
+            className="text-[11px] font-mono-code bg-[#161D2C] hover:bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full flex items-center gap-1.5 text-slate-200"
           >
             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} /> {s.label}
           </button>
