@@ -31,19 +31,19 @@ export function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-30 border-b border-slate-800/90 bg-[#0F131A]/95 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-[#0D1017]/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
           <button
             type="button"
             onClick={() => setActiveTab('overview')}
             className="flex items-center gap-3 text-left"
           >
-            <div className="w-9 h-9 rounded-xl bg-sky-500 flex items-center justify-center text-slate-950 font-bold shadow-md">
+            <div className="w-9 h-9 rounded-xl bg-[#5C7FA8] flex items-center justify-center text-white font-bold shadow-md">
               <Globe2 className="w-5 h-5" />
             </div>
             <div>
-              <div className="font-display font-bold text-base tracking-tight text-white">
-                TERRA<span className="text-sky-400">PULSE</span>
+              <div className="font-display font-bold text-base tracking-tight text-[#F1F4F9]">
+                TERRA<span className="text-[#87A8D0]">PULSE</span>
               </div>
               <div className="text-[10px] font-mono-code text-slate-400">
                 NASA EARTH SYSTEM ANALYTICS
@@ -51,13 +51,13 @@ export function App() {
             </div>
           </button>
 
-          <nav className="flex items-center gap-1.5 bg-[#161D2C] p-1 rounded-xl border border-slate-800">
+          <nav className="flex items-center gap-1.5 bg-[#141924] p-1 rounded-xl border border-slate-800/80">
             <button
               type="button"
               onClick={() => setActiveTab('overview')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${
                 activeTab === 'overview'
-                  ? 'bg-slate-100 text-slate-950 font-bold'
+                  ? 'bg-[#E2E6EE] text-[#0D1017] font-bold'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -68,7 +68,7 @@ export function App() {
               onClick={() => setActiveTab('wizard')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${
                 activeTab === 'wizard'
-                  ? 'bg-slate-100 text-slate-950 font-bold'
+                  ? 'bg-[#E2E6EE] text-[#0D1017] font-bold'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -79,7 +79,7 @@ export function App() {
               onClick={() => setActiveTab('lab')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${
                 activeTab === 'lab'
-                  ? 'bg-sky-500 text-slate-950 font-bold'
+                  ? 'bg-[#5C7FA8] text-white font-bold'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -104,13 +104,13 @@ export function App() {
           <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col gap-6">
             <section className="editorial-card rounded-2xl p-4 md:p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
               <div className="flex-1 w-full">
-                <label className="text-[10px] font-mono-code uppercase text-sky-400 font-semibold block mb-1">
+                <label className="text-[10px] font-mono-code uppercase text-[#87A8D0] font-semibold block mb-1">
                   1. SELECT NASA SATELLITE VARIABLE ({activeVariable.missionSource})
                 </label>
                 <select
                   value={selectedVarId}
                   onChange={(e) => setSelectedVarId(e.target.value)}
-                  className="w-full bg-[#0F131A] border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-sky-400"
+                  className="w-full bg-[#0D1017] border border-slate-700/80 rounded-xl px-3 py-2.5 text-sm font-semibold text-[#F1F4F9] focus:outline-none focus:border-[#6889B3]"
                 >
                   {NASA_VARIABLES.map((v) => (
                     <option key={v.id} value={v.id}>
@@ -118,12 +118,12 @@ export function App() {
                     </option>
                   ))}
                 </select>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                <p className="text-xs text-slate-300/90 mt-2 leading-relaxed">
                   {activeVariable.simpleDefinition}
                 </p>
               </div>
 
-              <div className="flex items-center gap-3 bg-[#0F131A] border border-slate-800 rounded-xl p-3 font-mono-code text-xs shrink-0">
+              <div className="flex items-center gap-3 bg-[#0D1017] border border-slate-800/80 rounded-xl p-3 font-mono-code text-xs shrink-0">
                 <div>
                   <span className="text-[10px] text-slate-400 block">FROM YEAR</span>
                   <input
@@ -132,7 +132,7 @@ export function App() {
                     max={endYear - 5}
                     value={startYear}
                     onChange={(e) => setStartYear(parseInt(e.target.value, 10) || 1985)}
-                    className="bg-transparent text-white font-bold w-16 focus:outline-none"
+                    className="bg-transparent text-[#F1F4F9] font-bold w-16 focus:outline-none"
                   />
                 </div>
                 <span className="text-slate-600">→</span>
@@ -144,10 +144,10 @@ export function App() {
                     max={2023}
                     value={endYear}
                     onChange={(e) => setEndYear(parseInt(e.target.value, 10) || 2023)}
-                    className="bg-transparent text-white font-bold w-16 focus:outline-none"
+                    className="bg-transparent text-[#F1F4F9] font-bold w-16 focus:outline-none"
                   />
                 </div>
-                <div className="pl-2 border-l border-slate-800 text-sky-400 font-bold">
+                <div className="pl-2 border-l border-slate-800 text-[#87A8D0] font-bold">
                   {endYear - startYear + 1} YRS
                 </div>
               </div>
@@ -188,7 +188,7 @@ export function App() {
         )}
       </main>
 
-      <footer className="border-t border-slate-800/80 py-4 text-center text-xs text-slate-400 font-mono-code">
+      <footer className="border-t border-slate-800/70 py-4 text-center text-xs text-slate-400 font-mono-code">
         TERRA-PULSE · NASA Space Apps Challenge 2026 · Data Source: NASA Langley POWER Earth
         Observations
       </footer>
