@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  MapPin,
-  CheckCircle2,
-  AlertCircle,
-  TrendingUp,
-  TrendingDown,
-  Minus,
-  Info,
-  Download,
-} from 'lucide-react';
+import { MapPin, CheckCircle2, AlertCircle, TrendingUp, TrendingDown, Minus, Info, Download } from 'lucide-react';
 import { DataPoint, NasaVariableOption, TrendAnalysis } from '../types/climate';
 import { fetchNasaAnnualTrend } from '../services/nasaPowerApi';
 import { analyzeTimeSeries } from '../engine/statistics';
@@ -35,14 +26,7 @@ const QUICK_LOCATIONS = [
 ];
 
 export const RegionPanel: React.FC<Props> = ({
-  panelTitle,
-  regionName,
-  lat,
-  lon,
-  variable,
-  startYear,
-  endYear,
-  onUpdateCoords,
+  panelTitle, regionName, lat, lon, variable, startYear, endYear, onUpdateCoords,
 }) => {
   const [data, setData] = useState<DataPoint[]>([]);
   const [analysis, setAnalysis] = useState<TrendAnalysis | null>(null);
@@ -61,19 +45,13 @@ export const RegionPanel: React.FC<Props> = ({
       setLoading(false);
     }
     load();
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, [lat, lon, variable.id, startYear, endYear]);
 
   function getPlainEnglishSummary(a: TrendAnalysis) {
     const dirWord = a.slopePerDecade > 0 ? 'increasing' : 'decreasing';
     if (a.isSignificant) {
-      return `Confirmed scientific trend: ${variable.shortName} is ${dirWord} by ${Math.abs(
-        a.slopePerDecade
-      )} ${variable.unit} per decade. Because p = ${
-        a.pValue
-      } (< 0.05), there is >95% statistical confidence this is a real shift, not random weather.`;
+      return `Confirmed scientific trend: ${variable.shortName} is ${dirWord} by ${Math.abs(a.slopePerDecade)} ${variable.unit} per decade. Because p = ${a.pValue} (< 0.05), there is >95% statistical confidence this is a real shift, not random weather.`;
     }
     return `Not statistically significant yet (p = ${a.pValue} ≥ 0.05). Year-to-year natural swings are currently larger than the long-term slope. Try expanding the year range to see if a clearer signal emerges.`;
   }
@@ -96,42 +74,22 @@ export const RegionPanel: React.FC<Props> = ({
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-800 pb-3">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono-code uppercase tracking-wider text-white font-bold">
-              {panelTitle}
-            </span>
+            <span className="text-xs font-mono-code uppercase tracking-wider text-white font-bold">{panelTitle}</span>
             {data.length > 0 && !loading && (
-              <button
-                type="button"
-                onClick={downloadCsv}
-                className="text-[10px] font-mono-code bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 px-2 py-0.5 rounded flex items-center gap-1 transition"
-              >
+              <button type="button" onClick={downloadCsv} className="text-[10px] font-mono-code bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 px-2 py-0.5 rounded flex items-center gap-1 transition">
                 <Download className="w-2.5 h-2.5 text-[#FF5A1F]" /> CSV
               </button>
             )}
           </div>
           <span className="text-[10px] font-mono-code text-zinc-400 block mt-0.5">
-            {sourceMode === 'LIVE_NASA'
-              ? '● LIVE NASA POWER TELEMETRY'
-              : '● NASA POWER CALIBRATED RECORD'}
+            {sourceMode === 'LIVE_NASA' ? '● LIVE NASA POWER TELEMETRY' : '● NASA POWER CALIBRATED RECORD'}
           </span>
         </div>
 
         {analysis && !loading && (
-          <span
-            className={`text-xs font-mono-code px-3 py-1 rounded-full flex items-center gap-1.5 border font-bold ${
-              analysis.isSignificant
-                ? 'bg-white text-black border-white'
-                : 'bg-zinc-900 text-zinc-300 border-zinc-700'
-            }`}
-          >
-            {analysis.isSignificant ? (
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5A1F]" />
-            ) : (
-              <AlertCircle className="w-3.5 h-3.5 text-zinc-400" />
-            )}
-            {analysis.isSignificant
-              ? `SIGNIFICANT (p = ${analysis.pValue})`
-              : `NATURAL SWINGS (p = ${analysis.pValue})`}
+          <span className={`text-xs font-mono-code px-3 py-1 rounded-full flex items-center gap-1.5 border font-bold ${analysis.isSignificant ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-300 border-zinc-700'}`}>
+            {analysis.isSignificant ? <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5A1F]" /> : <AlertCircle className="w-3.5 h-3.5 text-zinc-400" />}
+            {analysis.isSignificant ? `SIGNIFICANT (p = ${analysis.pValue})` : `NATURAL SWINGS (p = ${analysis.pValue})`}
           </span>
         )}
       </div>
@@ -145,42 +103,18 @@ export const RegionPanel: React.FC<Props> = ({
           }}
           className="bg-[#09090B] border border-zinc-700 rounded-xl px-3 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-[#FF5A1F]"
         >
-          {!QUICK_LOCATIONS.some((l) => l.name === regionName) && (
-            <option value={regionName}>{regionName}</option>
-          )}
-          {QUICK_LOCATIONS.map((loc) => (
-            <option key={loc.name} value={loc.name}>
-              {loc.name}
-            </option>
-          ))}
+          {!QUICK_LOCATIONS.some((l) => l.name === regionName) && <option value={regionName}>{regionName}</option>}
+          {QUICK_LOCATIONS.map((loc) => <option key={loc.name} value={loc.name}>{loc.name}</option>)}
         </select>
 
         <div className="grid grid-cols-2 gap-2 font-mono-code text-xs">
           <div className="bg-[#09090B] border border-zinc-800 rounded-lg px-3 py-1.5 flex items-center justify-between">
-            <span className="text-zinc-400 flex items-center gap-1">
-              <MapPin className="w-3 h-3 text-[#FF5A1F]" /> LAT:
-            </span>
-            <input
-              type="number"
-              step="0.5"
-              value={lat}
-              onChange={(e) =>
-                onUpdateCoords('Custom Coordinates', parseFloat(e.target.value) || 0, lon)
-              }
-              className="bg-transparent text-right text-white font-bold w-20 focus:outline-none"
-            />
+            <span className="text-zinc-400 flex items-center gap-1"><MapPin className="w-3 h-3 text-[#FF5A1F]" /> LAT:</span>
+            <input type="number" step="0.5" value={lat} onChange={(e) => onUpdateCoords('Custom Coordinates', parseFloat(e.target.value) || 0, lon)} className="bg-transparent text-right text-white font-bold w-20 focus:outline-none" />
           </div>
           <div className="bg-[#09090B] border border-zinc-800 rounded-lg px-3 py-1.5 flex items-center justify-between">
             <span className="text-zinc-400">LON:</span>
-            <input
-              type="number"
-              step="0.5"
-              value={lon}
-              onChange={(e) =>
-                onUpdateCoords('Custom Coordinates', lat, parseFloat(e.target.value) || 0)
-              }
-              className="bg-transparent text-right text-white font-bold w-20 focus:outline-none"
-            />
+            <input type="number" step="0.5" value={lon} onChange={(e) => onUpdateCoords('Custom Coordinates', lat, parseFloat(e.target.value) || 0)} className="bg-transparent text-right text-white font-bold w-20 focus:outline-none" />
           </div>
         </div>
       </div>
@@ -199,52 +133,36 @@ export const RegionPanel: React.FC<Props> = ({
             <div className="bg-[#09090B] border border-zinc-800 rounded-xl p-3">
               <span className="text-[10px] text-zinc-400 block">CHANGE / DECADE</span>
               <div className="text-sm md:text-base font-bold text-white flex items-center gap-1 mt-0.5">
-                {analysis.slopePerDecade > 0 ? (
-                  <TrendingUp className="w-4 h-4 text-[#FF5A1F]" />
-                ) : analysis.slopePerDecade < 0 ? (
-                  <TrendingDown className="w-4 h-4 text-[#3B82F6]" />
-                ) : (
-                  <Minus className="w-4 h-4 text-zinc-400" />
-                )}
-                {analysis.slopePerDecade > 0 ? '+' : ''}
-                {analysis.slopePerDecade}
+                {analysis.slopePerDecade > 0 ? <TrendingUp className="w-4 h-4 text-[#FF5A1F]" /> : analysis.slopePerDecade < 0 ? <TrendingDown className="w-4 h-4 text-[#3B82F6]" /> : <Minus className="w-4 h-4 text-zinc-400" />}
+                {analysis.slopePerDecade > 0 ? '+' : ''}{analysis.slopePerDecade}
               </div>
-              <span className="text-[10px] text-zinc-500">
-                95% CI [{analysis.confidenceLow}, {analysis.confidenceHigh}]
-              </span>
+              <span className="text-[10px] text-zinc-500">95% CI [{analysis.confidenceLow}, {analysis.confidenceHigh}]</span>
             </div>
 
             <div className="bg-[#09090B] border border-zinc-800 rounded-xl p-3">
               <span className="text-[10px] text-zinc-400 block">TOTAL SHIFT</span>
               <div className="text-sm md:text-base font-bold text-white mt-0.5">
-                {analysis.totalChange > 0 ? '+' : ''}
-                {analysis.totalChange} {variable.unit}
+                {analysis.totalChange > 0 ? '+' : ''}{analysis.totalChange} {variable.unit}
               </div>
-              <span className="text-[10px] text-zinc-500">
-                ({analysis.percentChange > 0 ? '+' : ''}
-                {analysis.percentChange}% vs avg)
-              </span>
+              <span className="text-[10px] text-zinc-500">({analysis.percentChange > 0 ? '+' : ''}{analysis.percentChange}% vs avg)</span>
             </div>
 
             <div className="bg-[#09090B] border border-zinc-800 rounded-xl p-3">
               <span className="text-[10px] text-zinc-400 block">MANN-KENDALL</span>
-              <div className="text-sm md:text-base font-bold text-white mt-0.5">
-                Z = {analysis.zScore}
-              </div>
-              <span
-                className={`text-[10px] font-bold ${
-                  analysis.isSignificant ? 'text-[#FF5A1F]' : 'text-zinc-400'
-                }`}
-              >
+              <div className="text-sm md:text-base font-bold text-white mt-0.5">Z = {analysis.zScore}</div>
+              <span className={`text-[10px] font-bold ${analysis.isSignificant ? 'text-[#FF5A1F]' : 'text-zinc-400'}`}>
                 {analysis.isSignificant ? 'p < 0.05 PROVEN' : 'p ≥ 0.05 UNPROVEN'}
               </span>
             </div>
           </div>
 
           <div className="bg-[#09090B] border border-zinc-800 rounded-xl p-3.5 text-xs text-zinc-200 leading-relaxed flex items-start gap-2.5">
-            {getPlainEnglishSummary(analysis)}
-            
-            )}
-
-);
+            <Info className="w-4 h-4 text-[#FF5A1F] shrink-0 mt-0.5" />
+            <p>{getPlainEnglishSummary(analysis)}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
+
