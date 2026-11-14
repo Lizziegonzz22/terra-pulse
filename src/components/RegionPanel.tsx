@@ -194,7 +194,7 @@ export const RegionPanel: React.FC<Props> = ({
       )}
 
       {analysis && !loading && (
-        <>
+        <div className="flex flex-col gap-3">
           <div className="grid grid-cols-3 gap-2.5 font-mono-code">
             <div className="bg-[#09090B] border border-zinc-800 rounded-xl p-3">
               <span className="text-[10px] text-zinc-400 block">CHANGE / DECADE</span>
@@ -243,8 +243,8 @@ export const RegionPanel: React.FC<Props> = ({
 
           <div className="bg-[#09090B] border border-zinc-800 rounded-xl p-3.5 text-xs text-zinc-200 leading-relaxed flex items-start gap-2.5">
             {getPlainEnglishSummary(analysis)}
-          </>
-          )}
+            
+            )}
 
 );
 };
