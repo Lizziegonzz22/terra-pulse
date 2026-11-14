@@ -15,20 +15,20 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
   const getRecommendation = (): PresetCase => {
     if (phenomenon === 'warming' || ecosystem === 'polar') {
       return {
-        ...DEMO_CASES, // Arctic Amplification
+        ...DEMO_CASES,
         startYear: span === 'short' ? 2010 : 1985,
         endYear: 2024,
       };
     }
     if (phenomenon === 'smoke' || ecosystem === 'forest') {
       return {
-        ...DEMO_CASES, // Boreal Smoke & Radiation
+        ...DEMO_CASES,
         startYear: span === 'short' ? 2012 : 1990,
         endYear: 2024,
       };
     }
     return {
-      ...DEMO_CASES, // ENSO Dipole Uruguay vs Chile
+      ...DEMO_CASES,
       startYear: span === 'short' ? 2012 : 1985,
       endYear: 2024,
     };
@@ -52,7 +52,6 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
         </p>
 
         <div className="flex flex-col gap-6">
-          {/* Pregunta 1 */}
           <div>
             <label className="block text-xs font-mono-code uppercase text-cyan-400 mb-3">
               1. Which environment or biome do you want to investigate?
@@ -79,7 +78,6 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
             </div>
           </div>
 
-          {/* Pregunta 2 */}
           <div>
             <label className="block text-xs font-mono-code uppercase text-cyan-400 mb-3">
               2. What physical change are you testing for?
@@ -106,7 +104,6 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
             </div>
           </div>
 
-          {/* Pregunta 3 */}
           <div>
             <label className="block text-xs font-mono-code uppercase text-cyan-400 mb-3">
               3. Select temporal baseline (Test how duration affects p-value!)
@@ -142,7 +139,6 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
           </div>
         </div>
 
-        {/* Tarjeta de Resultado Recomendado */}
         <div className="mt-8 bg-slate-950/90 border border-cyan-500/40 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-xs font-mono-code text-emerald-400 mb-1">
