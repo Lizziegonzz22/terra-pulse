@@ -31,19 +31,19 @@ export function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-30 border-b border-slate-800/90 bg-[#111318]/95 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-slate-800/90 bg-[#0F131A]/95 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
           <button
             type="button"
             onClick={() => setActiveTab('overview')}
             className="flex items-center gap-3 text-left"
           >
-            <div className="w-9 h-9 rounded-xl bg-[#E5A93B] flex items-center justify-center text-slate-950 font-bold shadow-md">
+            <div className="w-9 h-9 rounded-xl bg-sky-500 flex items-center justify-center text-slate-950 font-bold shadow-md">
               <Globe2 className="w-5 h-5" />
             </div>
             <div>
               <div className="font-display font-bold text-base tracking-tight text-white">
-                TERRA<span className="text-[#E5A93B]">PULSE</span>
+                TERRA<span className="text-sky-400">PULSE</span>
               </div>
               <div className="text-[10px] font-mono-code text-slate-400">
                 NASA EARTH SYSTEM ANALYTICS
@@ -51,7 +51,7 @@ export function App() {
             </div>
           </button>
 
-          <nav className="flex items-center gap-1.5 bg-[#181B23] p-1 rounded-xl border border-slate-800">
+          <nav className="flex items-center gap-1.5 bg-[#161D2C] p-1 rounded-xl border border-slate-800">
             <button
               type="button"
               onClick={() => setActiveTab('overview')}
@@ -79,7 +79,7 @@ export function App() {
               onClick={() => setActiveTab('lab')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${
                 activeTab === 'lab'
-                  ? 'bg-[#E5A93B] text-slate-950 font-bold'
+                  ? 'bg-sky-500 text-slate-950 font-bold'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -104,13 +104,13 @@ export function App() {
           <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col gap-6">
             <section className="editorial-card rounded-2xl p-4 md:p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
               <div className="flex-1 w-full">
-                <label className="text-[10px] font-mono-code uppercase text-[#E5A93B] font-semibold block mb-1">
+                <label className="text-[10px] font-mono-code uppercase text-sky-400 font-semibold block mb-1">
                   1. SELECT NASA SATELLITE VARIABLE ({activeVariable.missionSource})
                 </label>
                 <select
                   value={selectedVarId}
                   onChange={(e) => setSelectedVarId(e.target.value)}
-                  className="w-full bg-[#111318] border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-[#E5A93B]"
+                  className="w-full bg-[#0F131A] border border-slate-700 rounded-xl px-3 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-sky-400"
                 >
                   {NASA_VARIABLES.map((v) => (
                     <option key={v.id} value={v.id}>
@@ -123,7 +123,7 @@ export function App() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-3 bg-[#111318] border border-slate-800 rounded-xl p-3 font-mono-code text-xs shrink-0">
+              <div className="flex items-center gap-3 bg-[#0F131A] border border-slate-800 rounded-xl p-3 font-mono-code text-xs shrink-0">
                 <div>
                   <span className="text-[10px] text-slate-400 block">FROM YEAR</span>
                   <input
@@ -147,7 +147,7 @@ export function App() {
                     className="bg-transparent text-white font-bold w-16 focus:outline-none"
                   />
                 </div>
-                <div className="pl-2 border-l border-slate-800 text-[#E5A93B] font-bold">
+                <div className="pl-2 border-l border-slate-800 text-sky-400 font-bold">
                   {endYear - startYear + 1} YRS
                 </div>
               </div>
