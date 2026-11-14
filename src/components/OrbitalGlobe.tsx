@@ -7,76 +7,41 @@ interface Props {
   onSelectCase: (demo: PresetCase) => void;
 }
 
-// Coordenadas reales de polígonos continentales simplificados (lon, lat)
 const CONTINENTS: [number, number][][] = [
-  // América del Norte
   [
     [-165, 65], [-140, 70], [-95, 72], [-65, 60], [-55, 48], [-75, 35],
     [-82, 25], [-97, 26], [-105, 20], [-118, 33], [-125, 49], [-145, 60],
   ],
-  // América del Sur
   [
     [-78, 10], [-60, 8], [-35, -6], [-39, -18], [-53, -33], [-68, -54],
     [-75, -48], [-71, -18], [-81, -4],
   ],
-  // Groenlandia
   [
     [-52, 60], [-22, 70], [-18, 82], [-55, 81], [-60, 72],
   ],
-  // Europa y Asia
   [
-    [-9, 36], [5, 44], [10, 54], [28, 70], [75, 73], [135, 71], [170, 65],
-, [122, 30], [105, 12], [78, 8], [60, 25], [36, 35], [25, 38],
+    [-9, 36],,,,,,,
+,,,,,,,
   ],
-  // África
   [
-    [-17, 15], [-5, 35], [32, 31], [51, 12], [40, -15], [20, -34],
-    [12, -16], [8, 4], [-8, 5],
+    [-17, 15], [-5, 35],,, [40, -15], [20, -34],
+    [12, -16],, [-8, 5],
   ],
-  // Australia
   [
     [114, -22], [132, -12], [152, -26], [146, -38], [116, -34],
   ],
 ];
 
 const HOTSPOTS = [
-  {
-    id: 'uruguay',
-    label: 'Río de la Plata (+Rain)',
-    lat: -34.9,
-    lon: -56.2,
-    color: '#3B82F6',
-    caseIdx: 0,
-  },
-  {
-    id: 'chile',
-    label: 'Central Chile (-Drought)',
-    lat: -33.4,
-    lon: -70.6,
-    color: '#FF5A1F',
-    caseIdx: 0,
-  },
-  {
-    id: 'arctic',
-    label: 'Svalbard (Arctic +3.4°C)',
-    lat: 78.2,
-    lon: 15.6,
-    color: '#FF5A1F',
-    caseIdx: 1,
-  },
-  {
-    id: 'canada',
-    label: 'Boreal Canada (Smoke)',
-    lat: 54.5,
-    lon: -105.5,
-    color: '#F59E0B',
-    caseIdx: 2,
-  },
+  { id: 'uruguay', label: 'Río de la Plata (+Rain)', lat: -34.9, lon: -56.2, color: '#3B82F6', caseIdx: 0 },
+  { id: 'chile', label: 'Central Chile (-Drought)', lat: -33.4, lon: -70.6, color: '#FF5A1F', caseIdx: 0 },
+  { id: 'arctic', label: 'Svalbard (+3.4°C)', lat: 78.2, lon: 15.6, color: '#FF5A1F', caseIdx: 1 },
+  { id: 'canada', label: 'Boreal Canada (Smoke)', lat: 54.5, lon: -105.5, color: '#F59E0B', caseIdx: 2 },
 ];
 
 export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const rotLonRef = useRef<number>(62); // Centrado inicialmente en América / Atlántico
+  const rotLonRef = useRef<number>(62);
   const rotLatRef = useRef<number>(-12);
   const isDraggingRef = useRef<boolean>(false);
   const lastPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -105,32 +70,16 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
 
       ctx.clearRect(0, 0, w, h);
 
-      // Proyección ortográfica 3D (lon, lat -> x, y, visible)
       const project = (lonDeg: number, latDeg: number) => {
         const lambda = ((lonDeg + rotLonRef.current) * Math.PI) / 180;
         const phi = (latDeg * Math.PI) / 180;
         const phi0 = (rotLatRef.current * Math.PI) / 180;
-
-        const cosc =
-          Math.sin(phi0) * Math.sin(phi) + Math.cos(phi0) * Math.cos(phi) * Math.cos(lambda);
+        const cosc = Math.sin(phi0) * Math.sin(phi) + Math.cos(phi0) * Math.cos(phi) * Math.cos(lambda);
         const x = cx + radius * Math.cos(phi) * Math.sin(lambda);
-        const y =
-          cy -
-          radius *
-            (Math.cos(phi0) * Math.sin(phi) - Math.sin(phi0) * Math.cos(phi) * Math.cos(lambda));
-        return { x, y, visible: cosc >= 0, z: cosc };
+        const y = cy - radius * (Math.cos(phi0) * Math.sin(phi) - Math.sin(phi0) * Math.cos(phi) * Math.cos(lambda));
+        return { x, y, visible: cosc >= 0 };
       };
 
-      // 1. Halo atmosférico limpio
-      const halo = ctx.createRadialGradient(cx, cy, radius * 0.85, cx, cy, radius * 1.22);
-      halo.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
-      halo.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx.fillStyle = halo;
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius * 1.22, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 2. Esfera base (Océano profundo grafito/azul oscuro)
       const sphereGrad = ctx.createRadialGradient(cx - 38, cy - 38, 12, cx, cy, radius);
       sphereGrad.addColorStop(0, '#1E293B');
       sphereGrad.addColorStop(0.65, '#0F172A');
@@ -140,13 +89,11 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Recorte dentro de la esfera para grilla y continentes
       ctx.save();
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.clip();
 
-      // 3. Grilla de meridianos y paralelos 3D
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
       ctx.lineWidth = 1;
       for (let lat = -60; lat <= 60; lat += 30) {
@@ -155,10 +102,8 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
         for (let lon = -180; lon <= 180; lon += 6) {
           const p = project(lon, lat);
           if (p.visible) {
-            if (!started) {
-              ctx.moveTo(p.x, p.y);
-              started = true;
-            } else ctx.lineTo(p.x, p.y);
+            if (!started) { ctx.moveTo(p.x, p.y); started = true; }
+            else ctx.lineTo(p.x, p.y);
           } else started = false;
         }
         ctx.stroke();
@@ -169,16 +114,13 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
         for (let lat = -85; lat <= 85; lat += 6) {
           const p = project(lon, lat);
           if (p.visible) {
-            if (!started) {
-              ctx.moveTo(p.x, p.y);
-              started = true;
-            } else ctx.lineTo(p.x, p.y);
+            if (!started) { ctx.moveTo(p.x, p.y); started = true; }
+            else ctx.lineTo(p.x, p.y);
           } else started = false;
         }
         ctx.stroke();
       }
 
-      // 4. Continentes 3D
       CONTINENTS.forEach((poly) => {
         ctx.beginPath();
         let visibleCount = 0;
@@ -198,7 +140,6 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
         }
       });
 
-      // 5. Línea de teleconexión Uruguay <-> Chile si ambos son visibles
       const pUru = project(-56.2, -34.9);
       const pChi = project(-70.6, -33.4);
       if (pUru.visible && pChi.visible) {
@@ -207,12 +148,9 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
         ctx.quadraticCurveTo((pChi.x + pUru.x) / 2, pChi.y - 22, pUru.x, pUru.y);
         ctx.strokeStyle = '#FF5A1F';
         ctx.lineWidth = 2;
-        ctx.setLineDash();
         ctx.stroke();
-        ctx.setLineDash([]);
       }
 
-      // 6. Puntos de estudio en la superficie
       HOTSPOTS.forEach((spot) => {
         const p = project(spot.lon, spot.lat);
         if (p.visible) {
@@ -234,19 +172,15 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
 
       ctx.restore();
 
-      // Borde exterior nítido del planeta
       ctx.strokeStyle = '#3F3F46';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.stroke();
 
-      // 7. Satélite NASA orbitando en 3D alrededor del globo
       const satX = cx + Math.cos(satAngle) * 156;
       const satY = cy + Math.sin(satAngle) * 44 - Math.cos(satAngle) * 24;
-      const satInFront = Math.sin(satAngle) > 0;
-
-      if (satInFront) {
+      if (Math.sin(satAngle) > 0) {
         ctx.fillStyle = '#FF5A1F';
         ctx.beginPath();
         ctx.arc(satX, satY, 4.5, 0, Math.PI * 2);
@@ -263,24 +197,6 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
     return () => cancelAnimationFrame(animId);
   }, [autoSpin]);
 
-  const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    isDraggingRef.current = true;
-    lastPosRef.current = { x: e.clientX, y: e.clientY };
-  };
-
-  const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (!isDraggingRef.current) return;
-    const dx = e.clientX - lastPosRef.current.x;
-    const dy = e.clientY - lastPosRef.current.y;
-    rotLonRef.current = (rotLonRef.current + dx * 0.45) % 360;
-    rotLatRef.current = Math.max(-55, Math.min(55, rotLatRef.current + dy * 0.35));
-    lastPosRef.current = { x: e.clientX, y: e.clientY };
-  };
-
-  const handlePointerUp = () => {
-    isDraggingRef.current = false;
-  };
-
   return (
     <div className="flex flex-col items-center w-full">
       <div className="relative">
@@ -288,10 +204,20 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
           ref={canvasRef}
           width={340}
           height={300}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerLeave={handlePointerUp}
+          onPointerDown={(e) => {
+            isDraggingRef.current = true;
+            lastPosRef.current = { x: e.clientX, y: e.clientY };
+          }}
+          onPointerMove={(e) => {
+            if (!isDraggingRef.current) return;
+            const dx = e.clientX - lastPosRef.current.x;
+            const dy = e.clientY - lastPosRef.current.y;
+            rotLonRef.current = (rotLonRef.current + dx * 0.45) % 360;
+            rotLatRef.current = Math.max(-55, Math.min(55, rotLatRef.current + dy * 0.35));
+            lastPosRef.current = { x: e.clientX, y: e.clientY };
+          }}
+          onPointerUp={() => { isDraggingRef.current = false; }}
+          onPointerLeave={() => { isDraggingRef.current = false; }}
           className="w-full max-w-[330px] h-auto cursor-grab active:cursor-grabbing touch-none"
         />
         <button
@@ -299,7 +225,7 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
           onClick={() => setAutoSpin(!autoSpin)}
           className="absolute bottom-2 right-2 text-[10px] font-mono-code bg-[#18181B] border border-zinc-700 text-zinc-300 px-2.5 py-1 rounded-lg flex items-center gap-1 hover:border-white transition"
         >
-          <RotateCw className={`w-3 h-3 ${autoSpin ? 'animate-spin' : ''}`} />
+          <RotateCw className="w-3 h-3" />
           {autoSpin ? 'AUTO-ORBIT' : 'MANUAL'}
         </button>
       </div>
@@ -312,14 +238,11 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
             onClick={() => onSelectCase(DEMO_CASES.at(spot.caseIdx)!)}
             className="text-[11px] font-mono-code bg-[#18181B] hover:bg-zinc-800 border border-zinc-700 px-2.5 py-1 rounded-full flex items-center gap-1.5 text-zinc-200 transition"
           >
-            <span
-              className="w-2 h-2 rounded-full inline-block"
-              style={{ backgroundColor: spot.color }}
-              />
+            <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: spot.color }} />
             {spot.label}
-            
-))}
-
-
-);
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 };
