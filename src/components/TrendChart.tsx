@@ -9,7 +9,6 @@ interface Props {
 
 export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
-
   if (data.length === 0) return null;
 
   const width = 600;
@@ -26,10 +25,8 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
   const yMin = minVal - range * 0.14;
   const yMax = maxVal + range * 0.14;
 
-  const xScale = (idx: number) =>
-    padL + (idx / Math.max(1, data.length - 1)) * (width - padL - padR);
-  const yScale = (val: number) =>
-    height - padB - ((val - yMin) / (yMax - yMin)) * (height - padT - padB);
+  const xScale = (idx: number) => padL + (idx / Math.max(1, data.length - 1)) * (width - padL - padR);
+  const yScale = (val: number) => height - padB - ((val - yMin) / (yMax - yMin)) * (height - padT - padB);
 
   const meanY = yScale(analysis.mean);
   const firstYear = data.at(0)!.year;
@@ -39,20 +36,13 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
   const hoveredPoint = hoverIdx !== null ? data.at(hoverIdx) : null;
 
   return (
-    <div className="relative bg-[#111318] border border-slate-800 rounded-xl p-3.5">
+    <div className="relative bg-[#0F131A] border border-slate-800 rounded-xl p-3.5">
       {hoveredPoint && (
-        <div className="absolute top-3 right-3 bg-[#1E222D] border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-mono-code z-10 shadow-lg">
+        <div className="absolute top-3 right-3 bg-[#181E2C] border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-mono-code z-10 shadow-lg">
           <span className="text-slate-400">YEAR {hoveredPoint.year}: </span>
-          <span className="text-white font-bold">
-            {hoveredPoint.value} {unit}
-          </span>
-          <span
-            className={`ml-2 font-semibold ${
-              hoveredPoint.value >= analysis.mean ? 'text-[#E5A93B]' : 'text-[#4F9CF9]'
-            }`}
-          >
-            ({hoveredPoint.value >= analysis.mean ? '+' : ''}
-            {(hoveredPoint.value - analysis.mean).toFixed(2)})
+          <span className="text-white font-bold">{hoveredPoint.value} {unit}</span>
+          <span className="ml-2 font-semibold text-sky-400">
+            ({hoveredPoint.value >= analysis.mean ? '+' : ''}{(hoveredPoint.value - analysis.mean).toFixed(2)})
           </span>
         </div>
       )}
@@ -63,7 +53,7 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
           const y = yScale(val);
           return (
             <g key={i}>
-              <line x1={padL} y1={y} x2={width - padR} y2={y} stroke="#1E2330" strokeWidth="1" />
+              <line x1={padL} y1={y} x2={width - padR} y2={y} stroke="#1E293B" strokeWidth="1" />
               <text x={padL - 6} y={y + 3} textAnchor="end" fill="#94A3B8" fontSize="10" fontFamily="JetBrains Mono, monospace">
                 {val.toFixed(1)}
               </text>
@@ -85,7 +75,7 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
               y={isAbove ? y : meanY}
               width={barW}
               height={Math.max(2, Math.abs(y - meanY))}
-              fill={isAbove ? 'rgba(229, 169, 59, 0.35)' : 'rgba(79, 156, 249, 0.35)'}
+              fill={isAbove ? 'rgba(56, 189, 248, 0.35)' : 'rgba(129, 140, 248, 0.35)'}
               rx="1.5"
             />
           );
@@ -98,7 +88,7 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
           y1={yScale(trendStartVal)}
           x2={xScale(data.length - 1)}
           y2={yScale(trendEndVal)}
-          stroke={analysis.isSignificant ? '#F8FAFC' : '#E5A93B'}
+          stroke="#38BDF8"
           strokeWidth="2.8"
           strokeLinecap="round"
         />
@@ -109,8 +99,8 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
             cx={xScale(idx)}
             cy={yScale(pt.value)}
             r={hoverIdx === idx ? 5.5 : 3}
-            fill={pt.value >= analysis.mean ? '#E5A93B' : '#4F9CF9'}
-            stroke="#111318"
+            fill={pt.value >= analysis.mean ? '#38BDF8' : '#818CF8'}
+            stroke="#0F131A"
             strokeWidth="1"
             className="cursor-pointer transition-all"
             onMouseEnter={() => setHoverIdx(idx)}
@@ -126,10 +116,9 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
       </svg>
 
       <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-code text-slate-400 mt-1 pt-2 border-t border-slate-800">
-        <span className="flex items-center gap-1.5 text-slate-200 font-semibold">
-          <span className="w-3.5 h-1 inline-block rounded bg-slate-100" />
-          Trend Line ({analysis.slopePerDecade > 0 ? '+' : ''}
-          {analysis.slopePerDecade} {unit}/decade)
+        <span className="flex items-center gap-1.5 text-sky-300 font-semibold">
+          <span className="w-3.5 h-1 inline-block rounded bg-sky-400" />
+          Trend Line ({analysis.slopePerDecade > 0 ? '+' : ''}{analysis.slopePerDecade} {unit}/decade)
         </span>
         <span>Dashed: Historical Mean ({analysis.mean} {unit})</span>
       </div>
