@@ -26,8 +26,8 @@ export function analyzeTimeSeries(data: DataPoint[]): TrendAnalysis {
       confidenceHigh: 0,
       isSignificant: false,
       direction: 'STABLE',
-      intercept: data?.[0]?.value || 0,
-      mean: data?.[0]?.value || 0,
+      intercept: data?.value || 0,
+      mean: data?.value || 0,
     };
   }
 
@@ -58,12 +58,10 @@ export function analyzeTimeSeries(data: DataPoint[]): TrendAnalysis {
   }
   const rSquared = ssTot === 0 ? 0 : Math.max(0, 1 - ssRes / ssTot);
 
-  // Error estándar de la pendiente e Intervalo de Confianza 95%
   const stdErrReg = Math.sqrt(ssRes / Math.max(1, n - 2));
   const stdErrSlope = stdErrReg / Math.sqrt(sxx);
-  const margin95 = 1.96 * stdErrSlope * 10; // por década
+  const margin95 = 1.96 * stdErrSlope * 10;
 
-  // Test de Mann-Kendall
   let s = 0;
   for (let i = 0; i < n - 1; i++) {
     for (let j = i + 1; j < n; j++) {
@@ -82,7 +80,7 @@ export function analyzeTimeSeries(data: DataPoint[]): TrendAnalysis {
   const pValue = 2 * (1 - normalCDF(Math.abs(zScore)));
   const isSignificant = pValue < 0.05;
 
-  const yearsSpan = data[n - 1].year - data[0].year;
+  const yearsSpan = data[n - 1].year - data.year;
   const totalChange = slope * yearsSpan;
   const percentChange = meanY !== 0 ? (totalChange / Math.abs(meanY)) * 100 : 0;
 
