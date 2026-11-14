@@ -4,11 +4,8 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #090D16;
-  color: #F1F5F9;
-  background-image: 
-    radial-gradient(circle at 20% 10%, rgba(11, 61, 145, 0.25), transparent 50%),
-    radial-gradient(circle at 85% 30%, rgba(224, 122, 95, 0.1), transparent 45%);
+  background-color: #09090B;
+  color: #FAFAFA;
 }
 
 h1, h2, h3, .font-display {
@@ -20,8 +17,7 @@ h1, h2, h3, .font-display {
 }
 
 .editorial-card {
-  background: rgba(17, 24, 39, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(148, 163, 184, 0.14);
-  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.65);
+  background: #121215;
+  border: 1px solid #27272A;
+  box-shadow: 0 16px 40px -15px rgba(0, 0, 0, 0.85);
 }
