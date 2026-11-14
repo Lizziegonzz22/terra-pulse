@@ -1,6 +1,6 @@
 # TERRA-PULSE // NASA Earth System Trend Detective
 
-**Live Interactive Web App:** [https://terra-pulse-2252.vercel.app](https://terra-pulse.vercel.app)  
+**Live Interactive Web App:** [https://terra-pulse-2252.vercel.app](https://terra-pulse-2252.vercel.app)  
 **Challenge:** Be An Earth System Trend Detective! (Advanced) — 2026 NASA Space Apps Challenge  
 
 ---
