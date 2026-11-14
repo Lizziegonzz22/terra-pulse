@@ -32,25 +32,23 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
     height - padB - ((val - yMin) / (yMax - yMin)) * (height - padT - padB);
 
   const meanY = yScale(analysis.mean);
-
   const firstYear = data.at(0)!.year;
   const lastYear = data.at(-1)!.year;
   const trendStartVal = (analysis.slopePerDecade / 10) * firstYear + analysis.intercept;
   const trendEndVal = (analysis.slopePerDecade / 10) * lastYear + analysis.intercept;
-
   const hoveredPoint = hoverIdx !== null ? data.at(hoverIdx) : null;
 
   return (
-    <div className="relative bg-[#09090B] border border-zinc-800 rounded-xl p-3.5">
+    <div className="relative bg-[#111318] border border-slate-800 rounded-xl p-3.5">
       {hoveredPoint && (
-        <div className="absolute top-3 right-3 bg-[#18181B] border border-zinc-600 px-3 py-1.5 rounded-lg text-xs font-mono-code z-10 shadow-xl">
-          <span className="text-zinc-400">YEAR {hoveredPoint.year}: </span>
+        <div className="absolute top-3 right-3 bg-[#1E222D] border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-mono-code z-10 shadow-lg">
+          <span className="text-slate-400">YEAR {hoveredPoint.year}: </span>
           <span className="text-white font-bold">
             {hoveredPoint.value} {unit}
           </span>
           <span
-            className={`ml-2 font-bold ${
-              hoveredPoint.value >= analysis.mean ? 'text-[#FF5A1F]' : 'text-[#3B82F6]'
+            className={`ml-2 font-semibold ${
+              hoveredPoint.value >= analysis.mean ? 'text-[#E5A93B]' : 'text-[#4F9CF9]'
             }`}
           >
             ({hoveredPoint.value >= analysis.mean ? '+' : ''}
@@ -65,40 +63,16 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
           const y = yScale(val);
           return (
             <g key={i}>
-              <line
-                x1={padL}
-                y1={y}
-                x2={width - padR}
-                y2={y}
-                stroke="#27272A"
-                strokeWidth="1"
-              />
-              <text
-                x={padL - 6}
-                y={y + 3}
-                textAnchor="end"
-                fill="#A1A1AA"
-                fontSize="10"
-                fontFamily="JetBrains Mono, monospace"
-              >
+              <line x1={padL} y1={y} x2={width - padR} y2={y} stroke="#1E2330" strokeWidth="1" />
+              <text x={padL - 6} y={y + 3} textAnchor="end" fill="#94A3B8" fontSize="10" fontFamily="JetBrains Mono, monospace">
                 {val.toFixed(1)}
               </text>
             </g>
           );
         })}
 
-        {/* Media histórica */}
-        <line
-          x1={padL}
-          y1={meanY}
-          x2={width - padR}
-          y2={meanY}
-          stroke="#71717A"
-          strokeDasharray="4 4"
-          strokeWidth="1.2"
-        />
+        <line x1={padL} y1={meanY} x2={width - padR} y2={meanY} stroke="#64748B" strokeDasharray="4 4" strokeWidth="1.2" />
 
-        {/* Barras de anomalía */}
         {data.map((pt, idx) => {
           const x = xScale(idx);
           const y = yScale(pt.value);
@@ -111,40 +85,32 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
               y={isAbove ? y : meanY}
               width={barW}
               height={Math.max(2, Math.abs(y - meanY))}
-              fill={isAbove ? 'rgba(255, 90, 31, 0.45)' : 'rgba(59, 130, 246, 0.45)'}
+              fill={isAbove ? 'rgba(229, 169, 59, 0.35)' : 'rgba(79, 156, 249, 0.35)'}
               rx="1.5"
             />
           );
         })}
 
-        {/* Línea de serie temporal */}
-        <polyline
-          fill="none"
-          stroke="#E4E4E7"
-          strokeWidth="1.8"
-          points={data.map((pt, idx) => `${xScale(idx)},${yScale(pt.value)}`).join(' ')}
-        />
+        <polyline fill="none" stroke="#CBD5E1" strokeWidth="1.6" points={data.map((pt, idx) => `${xScale(idx)},${yScale(pt.value)}`).join(' ')} />
 
-        {/* Línea de Tendencia OLS */}
         <line
           x1={xScale(0)}
           y1={yScale(trendStartVal)}
           x2={xScale(data.length - 1)}
           y2={yScale(trendEndVal)}
-          stroke={analysis.isSignificant ? '#FFFFFF' : '#F59E0B'}
-          strokeWidth="3"
+          stroke={analysis.isSignificant ? '#F8FAFC' : '#E5A93B'}
+          strokeWidth="2.8"
           strokeLinecap="round"
         />
 
-        {/* Puntos */}
         {data.map((pt, idx) => (
           <circle
             key={pt.year}
             cx={xScale(idx)}
             cy={yScale(pt.value)}
             r={hoverIdx === idx ? 5.5 : 3}
-            fill={pt.value >= analysis.mean ? '#FF5A1F' : '#3B82F6'}
-            stroke="#09090B"
+            fill={pt.value >= analysis.mean ? '#E5A93B' : '#4F9CF9'}
+            stroke="#111318"
             strokeWidth="1"
             className="cursor-pointer transition-all"
             onMouseEnter={() => setHoverIdx(idx)}
@@ -153,23 +119,15 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
         ))}
 
         {[0, Math.floor(data.length / 2), data.length - 1].map((idx) => (
-          <text
-            key={idx}
-            x={xScale(idx)}
-            y={height - 8}
-            textAnchor="middle"
-            fill="#A1A1AA"
-            fontSize="10"
-            fontFamily="JetBrains Mono, monospace"
-          >
+          <text key={idx} x={xScale(idx)} y={height - 8} textAnchor="middle" fill="#94A3B8" fontSize="10" fontFamily="JetBrains Mono, monospace">
             {data.at(idx)?.year}
           </text>
         ))}
       </svg>
 
-      <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-code text-zinc-400 mt-1 pt-2 border-t border-zinc-800">
-        <span className="flex items-center gap-1.5 text-white font-semibold">
-          <span className="w-3.5 h-1 inline-block rounded bg-white" />
+      <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-code text-slate-400 mt-1 pt-2 border-t border-slate-800">
+        <span className="flex items-center gap-1.5 text-slate-200 font-semibold">
+          <span className="w-3.5 h-1 inline-block rounded bg-slate-100" />
           Trend Line ({analysis.slopePerDecade > 0 ? '+' : ''}
           {analysis.slopePerDecade} {unit}/decade)
         </span>
