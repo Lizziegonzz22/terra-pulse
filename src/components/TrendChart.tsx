@@ -33,7 +33,6 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
 
   const meanY = yScale(analysis.mean);
 
-  // Línea de tendencia OLS
   const firstYear = data.year;
   const lastYear = data[data.length - 1].year;
   const trendStartVal = (analysis.slopePerDecade / 10) * firstYear + analysis.intercept;
@@ -61,7 +60,6 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
       )}
 
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-56 overflow-visible">
-        {/* Líneas guía horizontales */}
         {[0, 0.25, 0.5, 0.75, 1].map((t, i) => {
           const val = yMin + t * (yMax - yMin);
           const y = yScale(val);
@@ -89,7 +87,6 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
           );
         })}
 
-        {/* Línea de Media Histórica */}
         <line
           x1={padL}
           y1={meanY}
@@ -100,7 +97,6 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
           strokeWidth="1"
         />
 
-        {/* Barras de anomalía respecto a la media */}
         {data.map((pt, idx) => {
           const x = xScale(idx);
           const y = yScale(pt.value);
@@ -119,7 +115,6 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
           );
         })}
 
-        {/* Polilínea de datos reales */}
         <polyline
           fill="none"
           stroke="#94A3B8"
@@ -127,7 +122,6 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
           points={data.map((pt, idx) => `${xScale(idx)},${yScale(pt.value)}`).join(' ')}
         />
 
-        {/* Línea de Tendencia Lineal (OLS) */}
         <line
           x1={xScale(0)}
           y1={yScale(trendStartVal)}
@@ -138,7 +132,6 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
           strokeLinecap="round"
         />
 
-        {/* Puntos interactivos */}
         {data.map((pt, idx) => (
           <circle
             key={pt.year}
@@ -152,7 +145,6 @@ export const TrendChart: React.FC<Props> = ({ data, analysis, unit }) => {
           />
         ))}
 
-        {/* Etiquetas de años en eje X */}
         {[0, Math.floor(data.length / 2), data.length - 1].map((idx) => (
           <text
             key={idx}
