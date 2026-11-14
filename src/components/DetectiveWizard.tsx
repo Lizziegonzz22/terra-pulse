@@ -13,150 +13,159 @@ export const DetectiveWizard: React.FC<Props> = ({ onApplyRecommendation }) => {
   const [span, setSpan] = useState<'short' | 'long'>('long');
 
   const getRecommendation = (): PresetCase => {
+    const caseDipole = DEMO_CASES.at(0)!;
+    const caseArctic = DEMO_CASES.at(1)!;
+    const caseSmoke = DEMO_CASES.at(2)!;
+
     if (phenomenon === 'warming' || ecosystem === 'polar') {
       return {
-        ...DEMO_CASES,
+        ...caseArctic,
         startYear: span === 'short' ? 2010 : 1985,
-        endYear: 2024,
+        endYear: 2023,
       };
     }
     if (phenomenon === 'smoke' || ecosystem === 'forest') {
       return {
-        ...DEMO_CASES,
-        startYear: span === 'short' ? 2012 : 1990,
-        endYear: 2024,
+        ...caseSmoke,
+        startYear: span === 'short' ? 2010 : 1990,
+        endYear: 2023,
       };
     }
     return {
-      ...DEMO_CASES,
-      startYear: span === 'short' ? 2012 : 1985,
-      endYear: 2024,
+      ...caseDipole,
+      startYear: span === 'short' ? 2010 : 1985,
+      endYear: 2023,
     };
   };
 
   const recommended = getRecommendation();
-  const recVariable = NASA_VARIABLES.find((v) => v.id === recommended.variableId);
+  const recVariable = NASA_VARIABLES.find((v) => v.id === recommended.variableId) || NASA_VARIABLES.at(0)!;
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="glass-card rounded-2xl p-6 md:p-8">
-        <div className="flex items-center gap-2 text-xs font-mono-code text-amber-400 mb-2">
-          <Sparkles className="w-4 h-4" /> GUIDED DATA DETECTIVE ASSISTANT
+      <div className="editorial-card rounded-2xl p-6 md:p-8">
+        <div className="flex items-center gap-2 text-xs font-mono-code text-[#E07A5F] mb-2">
+          <Sparkles className="w-4 h-4" /> GUIDED INVESTIGATION ASSISTANT
         </div>
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-          Configure Your Earth System Investigation
+          Not sure where to start? Build your investigation in 3 steps
         </h2>
-        <p className="text-sm text-slate-400 mb-8">
-          Answer three quick questions to match your hypothesis with the right NASA satellite
-          sensors, regions, and statistical time window.
+        <p className="text-sm text-slate-300 mb-8 leading-relaxed">
+          Choose a topic below and we will match you with the right NASA satellite sensor and two
+          real regions to compare.
         </p>
 
         <div className="flex flex-col gap-6">
           <div>
-            <label className="block text-xs font-mono-code uppercase text-cyan-400 mb-3">
-              1. Which environment or biome do you want to investigate?
+            <label className="block text-xs font-mono-code uppercase text-slate-400 mb-3">
+              Step 1 · Choose an environment to explore
             </label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {[
-                { id: 'agriculture', title: 'Agricultural & River Basins', desc: 'Crops, soil moisture & rainfall' },
-                { id: 'polar', title: 'Polar & High-Latitude Ice', desc: 'Rapid Arctic warming & albedo' },
-                { id: 'forest', title: 'Boreal & Tropical Forests', desc: 'Wildfire smoke & solar dimming' },
+                { id: 'agriculture', title: 'Farms & River Basins', desc: 'How rainfall patterns shift across regions' },
+                { id: 'polar', title: 'Polar Ice & Oceans', desc: 'Why the Arctic warms faster than the equator' },
+                { id: 'forest', title: 'Forests & Air Quality', desc: 'How wildfire smoke dims surface sunlight' },
               ].map((item) => (
                 <button
                   key={item.id}
+                  type="button"
                   onClick={() => setEcosystem(item.id as 'polar' | 'agriculture' | 'forest')}
                   className={`p-4 rounded-xl border text-left transition ${
                     ecosystem === item.id
-                      ? 'bg-cyan-500/15 border-cyan-400 text-white'
-                      : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-600'
+                      ? 'bg-[#3D85C6]/20 border-[#3D85C6] text-white'
+                      : 'bg-[#0E131F] border-slate-800 text-slate-400 hover:border-slate-600'
                   }`}
                 >
                   <div className="font-bold text-sm">{item.title}</div>
-                  <div className="text-xs opacity-80 mt-1">{item.desc}</div>
+                  <div className="text-xs opacity-85 mt-1">{item.desc}</div>
                 </button>
               ))}
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-mono-code uppercase text-cyan-400 mb-3">
-              2. What physical change are you testing for?
+            <label className="block text-xs font-mono-code uppercase text-slate-400 mb-3">
+              Step 2 · What environmental change do you want to measure?
             </label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {[
-                { id: 'drought', title: 'Hydrological Shifts', desc: 'Opposite wet/dry regional trends' },
-                { id: 'warming', title: 'Thermal Acceleration', desc: 'Surface air temperature anomalies' },
-                { id: 'smoke', title: 'Aerosols & Solar Radiation', desc: 'Smoke plumes blocking sunlight' },
+                { id: 'drought', title: 'Wet vs. Dry Shifts', desc: 'Compare regions with opposite rain trends' },
+                { id: 'warming', title: 'Temperature Rise', desc: 'Measure warming speed per decade' },
+                { id: 'smoke', title: 'Sunlight & Smoke', desc: 'Track drops in solar radiation' },
               ].map((item) => (
                 <button
                   key={item.id}
+                  type="button"
                   onClick={() => setPhenomenon(item.id as 'drought' | 'warming' | 'smoke')}
                   className={`p-4 rounded-xl border text-left transition ${
                     phenomenon === item.id
-                      ? 'bg-emerald-500/15 border-emerald-400 text-white'
-                      : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-600'
+                      ? 'bg-[#52B788]/20 border-[#52B788] text-white'
+                      : 'bg-[#0E131F] border-slate-800 text-slate-400 hover:border-slate-600'
                   }`}
                 >
                   <div className="font-bold text-sm">{item.title}</div>
-                  <div className="text-xs opacity-80 mt-1">{item.desc}</div>
+                  <div className="text-xs opacity-85 mt-1">{item.desc}</div>
                 </button>
               ))}
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-mono-code uppercase text-cyan-400 mb-3">
-              3. Select temporal baseline (Test how duration affects p-value!)
+            <label className="block text-xs font-mono-code uppercase text-slate-400 mb-3">
+              Step 3 · Choose how many years of satellite data to analyze
             </label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <button
+                type="button"
                 onClick={() => setSpan('long')}
                 className={`p-4 rounded-xl border text-left transition ${
                   span === 'long'
-                    ? 'bg-cyan-500/15 border-cyan-400 text-white'
-                    : 'bg-slate-950/60 border-slate-800 text-slate-400'
+                    ? 'bg-[#3D85C6]/20 border-[#3D85C6] text-white'
+                    : 'bg-[#0E131F] border-slate-800 text-slate-400'
                 }`}
               >
-                <div className="font-bold text-sm">Full Multi-Decadal Record (~35–40 Years)</div>
-                <div className="text-xs opacity-80 mt-1">
-                  Recommended to separate long-term climate trends from natural cycles.
+                <div className="font-bold text-sm">Long-Term Record (35+ Years)</div>
+                <div className="text-xs opacity-85 mt-1">
+                  Best for proving whether a climate trend is statistically real (p &lt; 0.05).
                 </div>
               </button>
               <button
+                type="button"
                 onClick={() => setSpan('short')}
                 className={`p-4 rounded-xl border text-left transition ${
                   span === 'short'
-                    ? 'bg-amber-500/15 border-amber-400 text-white'
-                    : 'bg-slate-950/60 border-slate-800 text-slate-400'
+                    ? 'bg-[#E07A5F]/20 border-[#E07A5F] text-white'
+                    : 'bg-[#0E131F] border-slate-800 text-slate-400'
                 }`}
               >
-                <div className="font-bold text-sm">Recent Decade Window (~12–14 Years)</div>
-                <div className="text-xs opacity-80 mt-1">
-                  Demonstrates why shorter series often yield p &gt; 0.05 (not yet significant).
+                <div className="font-bold text-sm">Short Window (~13 Years)</div>
+                <div className="text-xs opacity-85 mt-1">
+                  Shows why short periods look noisy and often fail significance tests.
                 </div>
               </button>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 bg-slate-950/90 border border-cyan-500/40 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="mt-8 bg-[#0E131F] border border-slate-700/80 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono-code text-emerald-400 mb-1">
-              <CheckCircle2 className="w-4 h-4" /> RECOMMENDED NASA MISSION SETUP
+            <div className="flex items-center gap-2 text-xs font-mono-code text-[#52B788] mb-1">
+              <CheckCircle2 className="w-4 h-4" /> READY TO INVESTIGATE
             </div>
             <div className="text-lg font-bold text-white">{recommended.title}</div>
-            <div className="text-xs text-slate-400 mt-1">
-              Sensor: <strong className="text-cyan-300">{recVariable?.missionSource}</strong> ·
-              Variable: <strong className="text-white">{recVariable?.label}</strong> (
+            <div className="text-xs text-slate-300 mt-1">
+              Satellite Source: <strong className="text-white">{recVariable.missionSource}</strong> ·
+              Metric: <strong className="text-white">{recVariable.label}</strong> (
               {recommended.startYear}–{recommended.endYear})
             </div>
           </div>
 
           <button
+            type="button"
             onClick={() => onApplyRecommendation(recommended)}
-            className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-5 py-3 rounded-xl text-xs font-mono-code flex items-center gap-2 shrink-0 transition"
+            className="bg-[#E07A5F] hover:bg-[#d1684d] text-white font-bold px-5 py-3 rounded-xl text-xs font-mono-code flex items-center gap-2 shrink-0 transition"
           >
-            <Compass className="w-4 h-4" /> RUN LIVE ANALYSIS <ArrowRight className="w-4 h-4" />
+            <Compass className="w-4 h-4" /> OPEN IN TREND LAB <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </div>
