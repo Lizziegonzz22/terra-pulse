@@ -29,7 +29,6 @@ export function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Navegación Principal estilo Plataforma Espacial */}
       <header className="sticky top-0 z-30 border-b border-slate-800/90 bg-[#04070D]/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
           <button
@@ -84,7 +83,6 @@ export function App() {
         </div>
       </header>
 
-      {/* Contenido Dinámico */}
       <main className="flex-1">
         {activeTab === 'overview' && (
           <MissionOverview
@@ -98,7 +96,6 @@ export function App() {
 
         {activeTab === 'lab' && (
           <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col gap-6">
-            {/* Barra de Control Científico */}
             <section className="glass-card rounded-2xl p-4 md:p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
               <div className="flex-1 w-full">
                 <label className="text-[10px] font-mono-code uppercase text-cyan-400 block mb-1">
@@ -118,7 +115,6 @@ export function App() {
                 <p className="text-xs text-slate-400 mt-1.5">{activeVariable.simpleDefinition}</p>
               </div>
 
-              {/* Control de Periodo Temporal (para probar significancia p < 0.05) */}
               <div className="flex items-center gap-3 bg-slate-950/90 border border-slate-800 rounded-xl p-3 font-mono-code text-xs shrink-0">
                 <div>
                   <span className="text-[10px] text-slate-400 block">START YEAR</span>
@@ -149,7 +145,6 @@ export function App() {
               </div>
             </section>
 
-            {/* Comparador Dual de Regiones (Teleconexiones Opuestas) */}
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <RegionPanel
                 panelTitle="REGION ALPHA // PRIMARY TARGET"
