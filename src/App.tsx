@@ -5,6 +5,7 @@ import { PresetCase } from './types/climate';
 import { MissionOverview } from './components/MissionOverview';
 import { DetectiveWizard } from './components/DetectiveWizard';
 import { RegionPanel } from './components/RegionPanel';
+import { WorldPickerMap } from './components/WorldPickerMap';
 
 export function App() {
   const defaultCase = DEMO_CASES.at(0)!;
@@ -151,6 +152,15 @@ export function App() {
                 </div>
               </div>
             </section>
+
+            <WorldPickerMap
+              regionA={regionA}
+              regionB={regionB}
+              onSelectLocation={(target, name, lat, lon) => {
+                if (target === 'A') setRegionA({ name, lat, lon });
+                else setRegionB({ name, lat, lon });
+              }}
+            />
 
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <RegionPanel
