@@ -51,16 +51,16 @@ export const WorldPickerMap: React.FC<Props> = ({ regionA, regionB, onSelectLoca
     <div className="editorial-card rounded-2xl p-4 flex flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2 text-xs font-mono-code text-slate-300">
-          <Crosshair className="w-4 h-4 text-sky-400" />
+          <Crosshair className="w-4 h-4 text-[#87A8D0]" />
           <span>GLOBAL TELECONNECTION MAP (TAP ANYWHERE TO SAMPLE NASA DATA)</span>
         </div>
 
-        <div className="flex items-center gap-1.5 bg-[#0F131A] p-1 rounded-xl border border-slate-800 text-xs font-mono-code">
+        <div className="flex items-center gap-1.5 bg-[#0D1017] p-1 rounded-xl border border-slate-800 text-xs font-mono-code">
           <button
             type="button"
             onClick={() => setActivePin('A')}
-            className={`px-3 py-1 rounded-lg font-bold transition flex items-center gap-1.5 ${
-              activePin === 'A' ? 'bg-sky-500 text-slate-950' : 'text-slate-400 hover:text-white'
+            className={`px-3 py-1 rounded-lg font-semibold transition flex items-center gap-1.5 ${
+              activePin === 'A' ? 'bg-[#5C7FA8] text-white' : 'text-slate-400 hover:text-white'
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-current" /> Move Pin A
@@ -68,8 +68,8 @@ export const WorldPickerMap: React.FC<Props> = ({ regionA, regionB, onSelectLoca
           <button
             type="button"
             onClick={() => setActivePin('B')}
-            className={`px-3 py-1 rounded-lg font-bold transition flex items-center gap-1.5 ${
-              activePin === 'B' ? 'bg-indigo-400 text-slate-950' : 'text-slate-400 hover:text-white'
+            className={`px-3 py-1 rounded-lg font-semibold transition flex items-center gap-1.5 ${
+              activePin === 'B' ? 'bg-[#7A75A6] text-white' : 'text-slate-400 hover:text-white'
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-current" /> Move Pin B
@@ -77,31 +77,31 @@ export const WorldPickerMap: React.FC<Props> = ({ regionA, regionB, onSelectLoca
         </div>
       </div>
 
-      <div className="relative rounded-xl overflow-hidden bg-[#0F131A] border border-slate-800">
+      <div className="relative rounded-xl overflow-hidden bg-[#0D1017] border border-slate-800/80">
         <svg viewBox={`0 0 ${w} ${h}`} onClick={handleSvgClick} className="w-full h-48 md:h-60 block cursor-crosshair select-none">
           {[-60, -30, 0, 30, 60].map((lat) => (
-            <line key={lat} x1={0} y1={latToY(lat)} x2={w} y2={latToY(lat)} stroke="#1E293B" strokeDasharray={lat === 0 ? '4 4' : undefined} strokeWidth="1" />
+            <line key={lat} x1={0} y1={latToY(lat)} x2={w} y2={latToY(lat)} stroke="#182030" strokeDasharray={lat === 0 ? '4 4' : undefined} strokeWidth="1" />
           ))}
           {[-120, -60, 0, 60, 120].map((lon) => (
-            <line key={lon} x1={lonToX(lon)} y1={0} x2={lonToX(lon)} y2={h} stroke="#1E293B" strokeWidth="1" />
+            <line key={lon} x1={lonToX(lon)} y1={0} x2={lonToX(lon)} y2={h} stroke="#182030" strokeWidth="1" />
           ))}
 
           {WORLD_LAND.map((poly, idx) => (
-            <polygon key={idx} points={poly.map((pt) => `${lonToX(pt.at(0)!)},${latToY(pt.at(1)!)}`).join(' ')} fill="#1E293B" stroke="#475569" strokeWidth="1.1" />
+            <polygon key={idx} points={poly.map((pt) => `${lonToX(pt.at(0)!)},${latToY(pt.at(1)!)}`).join(' ')} fill="#1B2333" stroke="#3D4E6B" strokeWidth="1.1" />
           ))}
 
-          <path d={`M ${ax},${ay} Q ${(ax + bx) / 2},${Math.min(ay, by) - 38} ${bx},${by}`} fill="none" stroke="#94A3B8" strokeWidth="1.5" strokeDasharray="4 4" />
+          <path d={`M ${ax},${ay} Q ${(ax + bx) / 2},${Math.min(ay, by) - 38} ${bx},${by}`} fill="none" stroke="#8596B2" strokeWidth="1.4" strokeDasharray="4 4" />
 
           <g transform={`translate(${ax}, ${ay})`}>
-            <circle r="11" fill="#38BDF8" opacity="0.28" />
-            <circle r="5.5" fill="#38BDF8" stroke="#FFFFFF" strokeWidth="1.5" />
-            <text x="9" y="4" fill="#FFFFFF" fontSize="10" fontWeight="bold" fontFamily="JetBrains Mono, monospace">A</text>
+            <circle r="11" fill="#6892C6" opacity="0.25" />
+            <circle r="5" fill="#6892C6" stroke="#E2E6EE" strokeWidth="1.4" />
+            <text x="9" y="4" fill="#E2E6EE" fontSize="10" fontWeight="bold" fontFamily="JetBrains Mono, monospace">A</text>
           </g>
 
           <g transform={`translate(${bx}, ${by})`}>
-            <circle r="11" fill="#818CF8" opacity="0.28" />
-            <circle r="5.5" fill="#818CF8" stroke="#FFFFFF" strokeWidth="1.5" />
-            <text x="9" y="4" fill="#FFFFFF" fontSize="10" fontWeight="bold" fontFamily="JetBrains Mono, monospace">B</text>
+            <circle r="11" fill="#8A84B8" opacity="0.25" />
+            <circle r="5" fill="#8A84B8" stroke="#E2E6EE" strokeWidth="1.4" />
+            <text x="9" y="4" fill="#E2E6EE" fontSize="10" fontWeight="bold" fontFamily="JetBrains Mono, monospace">B</text>
           </g>
         </svg>
       </div>
