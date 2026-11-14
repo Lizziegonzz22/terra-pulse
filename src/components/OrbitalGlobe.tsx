@@ -7,30 +7,31 @@ interface Props {
   onSelectCase: (demo: PresetCase) => void;
 }
 
-const CONTINENTS: [number, number][][] = [
-  [
-    [-165, 65], [-140, 70], [-95, 72], [-65, 60], [-55, 48], [-75, 35],
-    [-82, 25], [-97, 26], [-105, 20], [-118, 33], [-125, 49], [-145, 60],
-  ],
-  [
-    [-78, 10], [-60, 8], [-35, -6], [-39, -18], [-53, -33], [-68, -54],
-    [-75, -48], [-71, -18], [-81, -4],
-  ],
-  [
-    [-52, 60], [-22, 70], [-18, 82], [-55, 81], [-60, 72],
-  ],
-  [
-    [-9, 36],,,,,,,
-,,,,,,,
-  ],
-  [
-    [-17, 15], [-5, 35],,, [40, -15], [20, -34],
-    [12, -16],, [-8, 5],
-  ],
-  [
-    [114, -22], [132, -12], [152, -26], [146, -38], [116, -34],
-  ],
+const CONTINENT_STRINGS: string[] = [
+  // Norteamérica
+  '-168,65 -140,70 -95,72 -62,58 -55,47 -75,35 -81,25 -97,26 -105,20 -118,33 -125,49 -148,60',
+  // Sudamérica
+  '-78,10 -60,8 -35,-6 -39,-18 -53,-33 -68,-54 -75,-48 -71,-18 -81,-4',
+  // Groenlandia
+  '-52,60 -22,70 -18,82 -55,81 -60,72',
+  // Europa
+  '-9,36 -9,43 -2,48 5,53 10,58 25,68 42,66 48,45 28,41 15,38 5,43 -5,36',
+  // África
+  '-17,15 -5,35 10,37 32,31 44,12 50,11 40,-15 20,-34 12,-16 8,4 -8,5',
+  // Asia
+  '28,41 48,45 65,70 105,75 140,70 170,65 142,45 122,38 118,22 102,12 96,18 80,8 68,24 52,25 36,34',
+  // Australia
+  '114,-22 132,-12 152,-26 146,-38 116,-34',
+  // Antártida
+  '-180,-74 -90,-72 0,-72 90,-72 180,-74 180,-88 -180,-88',
 ];
+
+const CONTINENTS: [number, number][][] = CONTINENT_STRINGS.map((str) =>
+  str.split(' ').map((pair) => {
+    const parts = pair.split(',');
+    return [Number(parts.at(0)), Number(parts.at(1))];
+  })
+);
 
 const HOTSPOTS = [
   { id: 'uruguay', label: 'Río de la Plata (+Rain)', lat: -34.9, lon: -56.2, color: '#3B82F6', caseIdx: 0 },
@@ -41,8 +42,8 @@ const HOTSPOTS = [
 
 export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const rotLonRef = useRef<number>(62);
-  const rotLatRef = useRef<number>(-12);
+  const rotLonRef = useRef<number>(45);
+  const rotLatRef = useRef<number>(-15);
   const isDraggingRef = useRef<boolean>(false);
   const lastPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const [autoSpin, setAutoSpin] = useState(true);
@@ -64,7 +65,7 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
       const radius = 122;
 
       if (autoSpin && !isDraggingRef.current) {
-        rotLonRef.current = (rotLonRef.current + 0.22) % 360;
+        rotLonRef.current = (rotLonRef.current + 0.28) % 360;
       }
       satAngle = (satAngle + 0.018) % (Math.PI * 2);
 
@@ -134,7 +135,7 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
         if (visibleCount > 1) {
           ctx.fillStyle = '#27272A';
           ctx.fill();
-          ctx.strokeStyle = '#52525B';
+          ctx.strokeStyle = '#71717A';
           ctx.lineWidth = 1.2;
           ctx.stroke();
         }
