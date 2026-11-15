@@ -34,6 +34,15 @@ Queries homogenized annual time-series data from the NASA Langley Research Cente
 * **`ALLSKY_SFC_SW_DWN` (NASA CERES / MODIS):** All-sky surface shortwave irradiance (`kWh/m²/day`) for tracking wildfire smoke dimming.
 * **`QV2M` (NASA AIRS / MERRA-2):** Specific humidity at 2m (`g/kg`) for tracking atmospheric water vapor capacity.
 
+### Scientific CSV Export Sample (Multi-Sensor Telemetry)
+
+Every regional panel supports one-click CSV export combining primary telemetry with co-located temperature (`Temp_C`), solar irradiance (`Solar_kWh`), and exact geographic coordinates (`Lat`, `Lon`):
+
+| Montevideo / Río de la Plata (`Lat: -34.9, Lon: -56.2`) | Central Valley, Chile (`Lat: -33.4, Lon: -70.6`) |
+| :---: | :---: |
+| ![Montevideo CSV Export Sample](docs/csv-montevideo.png) | ![Central Chile CSV Export Sample](docs/csv-chile.png) |
+
+
 ---
 
 ## 4. Statistical Methodology (`src/engine/statistics.ts`)
