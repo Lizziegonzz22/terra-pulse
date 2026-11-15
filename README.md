@@ -20,9 +20,9 @@
 3. [NASA Earth science data & sensors](#3-nasa-earth-science-data--sensors)
 4. [Example finding: Río de la Plata vs. Central Chile](#4-example-finding-río-de-la-plata-vs-central-chile)
 5. [Statistical methodology](#5-statistical-methodology)
-6. [Tech stack & local installation](#7-tech-stack--local-installation)
-7. [How TERRA-PULSE maps to the judging criteria](#9-how-terra-pulse-maps-to-the-judging-criteria)
-8. [References, AI disclosure & license](#10-references-ai-disclosure--license)
+6. [Tech stack & local installation](#6-tech-stack--local-installation)
+7. [How TERRA-PULSE maps to the judging criteria](#7-how-terra-pulse-maps-to-the-judging-criteria)
+8. [References, AI disclosure & license](#8-references-ai-disclosure--license)
 
 ---
 
