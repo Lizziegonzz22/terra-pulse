@@ -4,6 +4,7 @@ import { DataPoint, NasaVariableOption, TrendAnalysis } from '../types/climate';
 import { fetchNasaAnnualTrend } from '../services/nasaPowerApi';
 import { analyzeTimeSeries } from '../engine/statistics';
 import { TrendChart } from './TrendChart';
+import { TrajectoryBar } from './TrajectoryBar';
 
 interface Props {
   panelTitle: string;
@@ -124,6 +125,7 @@ export const RegionPanel: React.FC<Props> = ({
         <div className="h-52 rounded-xl bg-[#05070C] border border-white/15 flex items-center justify-center font-mono-code text-xs text-amber-400 animate-pulse">LOADING NASA DATA...</div>
       ) : (
         analysis && <TrendChart data={data} analysis={analysis} unit={variable.unit} />
+      <TrajectoryBar analysis={analysis} unit={variable.unit} accent={accentColor} />
       )}
 
       {!loading && tempA && solarA && (
