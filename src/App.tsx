@@ -6,6 +6,7 @@ import { MissionOverview } from './components/MissionOverview';
 import { DetectiveWizard } from './components/DetectiveWizard';
 import { RegionPanel } from './components/RegionPanel';
 import { OrbitalGlobe } from './components/OrbitalGlobe';
+import { TeleconnectionMeter } from './components/TeleconnectionMeter';
 
 export function App() {
   const def = DEMO_CASES.at(0)!;
