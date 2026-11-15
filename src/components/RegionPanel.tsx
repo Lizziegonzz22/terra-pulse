@@ -123,9 +123,13 @@ export const RegionPanel: React.FC<Props> = ({
 
       {loading ? (
         <div className="h-52 rounded-xl bg-[#05070C] border border-white/15 flex items-center justify-center font-mono-code text-xs text-amber-400 animate-pulse">LOADING NASA DATA...</div>
-      ) : (
-        analysis && <TrendChart data={data} analysis={analysis} unit={variable.unit} />
-      <TrajectoryBar analysis={analysis} unit={variable.unit} accent={accentColor} />
+            ) : (
+        analysis && (
+          <div className="flex flex-col gap-3">
+            <TrendChart data={data} analysis={analysis} unit={variable.unit} />
+            <TrajectoryBar analysis={analysis} unit={variable.unit} accent={accentColor} />
+          </div>
+        )
       )}
 
       {!loading && tempA && solarA && (
