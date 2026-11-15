@@ -5,192 +5,100 @@ import { PresetCase } from './types/climate';
 import { MissionOverview } from './components/MissionOverview';
 import { DetectiveWizard } from './components/DetectiveWizard';
 import { RegionPanel } from './components/RegionPanel';
-import { WorldPickerMap } from './components/WorldPickerMap';
+import { OrbitalGlobe } from './components/OrbitalGlobe';
 
 export function App() {
-  const defaultCase = DEMO_CASES.at(0)!;
-  const [activeTab, setActiveTab] = useState<'overview' | 'wizard' | 'lab'>('overview');
-  const [selectedVarId, setSelectedVarId] = useState(defaultCase.variableId);
-  const [startYear, setStartYear] = useState(defaultCase.startYear);
-  const [endYear, setEndYear] = useState(defaultCase.endYear);
+  const def = DEMO_CASES.at(0)!;
+  const [tab, setTab] = useState<'overview' | 'wizard' | 'lab'>('overview');
+  const [varId, setVarId] = useState(def.variableId);
+  const [startYear, setStartYear] = useState(def.startYear);
+  const [endYear, setEndYear] = useState(def.endYear);
+  const [regA, setRegA] = useState(def.regionA);
+  const [regB, setRegB] = useState(def.regionB);
 
-  const [regionA, setRegionA] = useState(defaultCase.regionA);
-  const [regionB, setRegionB] = useState(defaultCase.regionB);
-
-  const activeVariable =
-    NASA_VARIABLES.find((v) => v.id === selectedVarId) || NASA_VARIABLES.at(0)!;
+  const activeVar = NASA_VARIABLES.find((v) => v.id === varId) || NASA_VARIABLES.at(0)!;
 
   function loadCase(demo: PresetCase) {
-    setSelectedVarId(demo.variableId);
-    setRegionA(demo.regionA);
-    setRegionB(demo.regionB);
-    setStartYear(demo.startYear);
-    setEndYear(demo.endYear);
-    setActiveTab('lab');
+    setVarId(demo.variableId); setRegA(demo.regionA); setRegB(demo.regionB);
+    setStartYear(demo.startYear); setEndYear(demo.endYear); setTab('lab');
   }
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#06080D]/90 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-          <button
-            type="button"
-            onClick={() => setActiveTab('overview')}
-            className="flex items-center gap-3 text-left"
-          >
-            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-slate-950 font-bold shadow-md">
-              <Globe2 className="w-5 h-5" />
-            </div>
+      <header className="sticky top-0 z-30 border-b border-white/15 bg-[#05070C]/90 backdrop-blur-md">
+        <div className="max-w-[1440px] mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+          <button type="button" onClick={() => setTab('overview')} className="flex items-center gap-2.5 text-left">
+            <div className="w-8 h-8 rounded-xl bg-white flex items-center justify-center text-slate-950 font-bold"><Globe2 className="w-5 h-5" /></div>
             <div>
-              <div className="font-display font-bold text-base tracking-tight text-white">
-                TERRA<span className="text-amber-400">PULSE</span>
-              </div>
-              <div className="text-[10px] font-mono-code text-slate-400">
-                NASA EARTH SYSTEM ANALYTICS
-              </div>
+              <div className="font-display font-bold text-base text-white">TERRA<span className="text-amber-400">PULSE</span></div>
+              <div className="text-[10px] font-mono-code text-slate-400">NASA EARTH SYSTEM COMMAND</div>
             </div>
           </button>
 
-          <nav className="flex items-center gap-1.5 bg-[#0D111A] p-1 rounded-xl border border-white/10">
-            <button
-              type="button"
-              onClick={() => setActiveTab('overview')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${
-                activeTab === 'overview'
-                  ? 'bg-white text-slate-950 font-bold'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <BookOpen className="w-3.5 h-3.5" /> Overview
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('wizard')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${
-                activeTab === 'wizard'
-                  ? 'bg-white text-slate-950 font-bold'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5" /> Wizard
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('lab')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${
-                activeTab === 'lab'
-                  ? 'bg-amber-400 text-slate-950 font-bold'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <SlidersHorizontal className="w-3.5 h-3.5" /> Trend Lab
-            </button>
+          <nav className="flex items-center gap-1 bg-[#0D121E] p-1 rounded-xl border border-white/15">
+            <button type="button" onClick={() => setTab('overview')} className={`px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 ${tab === 'overview' ? 'bg-white text-slate-950 font-bold' : 'text-slate-300'}`}><BookOpen className="w-3.5 h-3.5" /> Overview</button>
+            <button type="button" onClick={() => setTab('wizard')} className={`px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 ${tab === 'wizard' ? 'bg-white text-slate-950 font-bold' : 'text-slate-300'}`}><Sparkles className="w-3.5 h-3.5" /> Wizard</button>
+            <button type="button" onClick={() => setTab('lab')} className={`px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 ${tab === 'lab' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}><SlidersHorizontal className="w-3.5 h-3.5" /> Trend Lab</button>
           </nav>
         </div>
       </header>
 
       <main className="flex-1">
-        {activeTab === 'overview' && (
-          <MissionOverview
-            onStartLab={() => setActiveTab('lab')}
-            onStartWizard={() => setActiveTab('wizard')}
-            onLoadDemoCase={loadCase}
-          />
-        )}
+        {tab === 'overview' && <MissionOverview onStartLab={() => setTab('lab')} onStartWizard={() => setTab('wizard')} onLoadDemoCase={loadCase} />}
+        {tab === 'wizard' && <DetectiveWizard onApplyRecommendation={loadCase} />}
 
-        {activeTab === 'wizard' && <DetectiveWizard onApplyRecommendation={loadCase} />}
-
-        {activeTab === 'lab' && (
-          <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col gap-6">
-            <section className="editorial-card rounded-2xl p-4 md:p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+        {tab === 'lab' && (
+          <div className="max-w-[1440px] mx-auto px-4 py-5 flex flex-col gap-5">
+            <section className="editorial-card rounded-2xl p-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
               <div className="flex-1 w-full">
-                <label className="text-[10px] font-mono-code uppercase text-amber-400 font-semibold block mb-1">
-                  1. SELECT NASA SATELLITE VARIABLE ({activeVariable.missionSource})
-                </label>
-                <select
-                  value={selectedVarId}
-                  onChange={(e) => setSelectedVarId(e.target.value)}
-                  className="w-full bg-[#06080D] border border-white/15 rounded-xl px-3 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-amber-400"
-                >
-                  {NASA_VARIABLES.map((v) => (
-                    <option key={v.id} value={v.id}>
-                      {v.label} ({v.unit}) — {v.missionSource}
-                    </option>
+                <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                  <span className="text-[10px] font-mono-code text-amber-400 font-bold">PRESETS:</span>
+                  {DEMO_CASES.map((c) => (
+                    <button key={c.id} type="button" onClick={() => loadCase(c)} className="text-[10px] font-mono-code bg-white/10 hover:bg-amber-400 hover:text-slate-950 text-white px-2.5 py-0.5 rounded-full font-semibold">
+                      {c.badge}
+                    </button>
                   ))}
+                </div>
+                <select value={varId} onChange={(e) => setVarId(e.target.value)} className="w-full bg-[#05070C] border border-white/20 rounded-xl px-3 py-2 text-sm font-bold text-white">
+                  {NASA_VARIABLES.map((v) => <option key={v.id} value={v.id}>{v.label} ({v.unit}) — {v.missionSource}</option>)}
                 </select>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  {activeVariable.simpleDefinition}
-                </p>
               </div>
 
-              <div className="flex items-center gap-3 bg-[#06080D] border border-white/10 rounded-xl p-3 font-mono-code text-xs shrink-0">
-                <div>
-                  <span className="text-[10px] text-slate-400 block">FROM YEAR</span>
-                  <input
-                    type="number"
-                    min={1984}
-                    max={endYear - 5}
-                    value={startYear}
-                    onChange={(e) => setStartYear(parseInt(e.target.value, 10) || 1985)}
-                    className="bg-transparent text-white font-bold w-16 focus:outline-none"
-                  />
-                </div>
-                <span className="text-slate-600">→</span>
-                <div>
-                  <span className="text-[10px] text-slate-400 block">TO YEAR</span>
-                  <input
-                    type="number"
-                    min={startYear + 5}
-                    max={2023}
-                    value={endYear}
-                    onChange={(e) => setEndYear(parseInt(e.target.value, 10) || 2023)}
-                    className="bg-transparent text-white font-bold w-16 focus:outline-none"
-                  />
-                </div>
-                <div className="pl-2 border-l border-white/10 text-amber-400 font-bold">
-                  {endYear - startYear + 1} YRS
-                </div>
+              <div className="flex items-center gap-3 bg-[#05070C] border border-white/15 rounded-xl p-3 font-mono-code text-xs shrink-0">
+                <div><span className="text-[10px] text-slate-400 block">FROM</span><input type="number" min={1984} max={endYear - 5} value={startYear} onChange={(e) => setStartYear(parseInt(e.target.value, 10) || 1985)} className="bg-transparent text-white font-bold w-14" /></div>
+                <span className="text-slate-500">→</span>
+                <div><span className="text-[10px] text-slate-400 block">TO</span><input type="number" min={startYear + 5} max={2023} value={endYear} onChange={(e) => setEndYear(parseInt(e.target.value, 10) || 2023)} className="bg-transparent text-white font-bold w-14" /></div>
+                <div className="pl-2 border-l border-white/15 text-amber-400 font-bold">{endYear - startYear + 1} YRS</div>
               </div>
             </section>
 
-            <WorldPickerMap
-              regionA={regionA}
-              regionB={regionB}
-              onSelectLocation={(target, name, lat, lon) => {
-                if (target === 'A') setRegionA({ name, lat, lon });
-                else setRegionB({ name, lat, lon });
-              }}
-            />
+            <section className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
+              <div className="xl:col-span-4">
+                <RegionPanel panelTitle="PLACE A // PRIMARY" accentColor="amber" regionName={regA.name} lat={regA.lat} lon={regA.lon} variable={activeVar} startYear={startYear} endYear={endYear} onUpdateCoords={(name, lat, lon) => setRegA({ name, lat, lon })} />
+              </div>
 
-            <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <RegionPanel
-                panelTitle="REGION A // PRIMARY LOCATION"
-                regionName={regionA.name}
-                lat={regionA.lat}
-                lon={regionA.lon}
-                variable={activeVariable}
-                startYear={startYear}
-                endYear={endYear}
-                onUpdateCoords={(name, lat, lon) => setRegionA({ name, lat, lon })}
-              />
-              <RegionPanel
-                panelTitle="REGION B // COMPARISON LOCATION"
-                regionName={regionB.name}
-                lat={regionB.lat}
-                lon={regionB.lon}
-                variable={activeVariable}
-                startYear={startYear}
-                endYear={endYear}
-                onUpdateCoords={(name, lat, lon) => setRegionB({ name, lat, lon })}
-              />
+              <div className="xl:col-span-4 editorial-card rounded-2xl p-4 flex flex-col items-center gap-3">
+                <div className="text-center">
+                  <span className="text-[10px] font-mono-code text-sky-400 font-bold">ORBITAL TELECONNECTION VIEWER</span>
+                  <h3 className="text-sm font-bold text-white">Drag to Rotate · Tap Globe to Sample</h3>
+                </div>
+                <OrbitalGlobe compact regionA={regA} regionB={regB} onPickCoordinate={(t, name, lat, lon) => t === 'A' ? setRegA({ name, lat, lon }) : setRegB({ name, lat, lon })} />
+                <div className="w-full bg-[#05070C] border border-white/15 rounded-xl p-2.5 text-center text-xs">
+                  <div className="font-bold text-amber-400 truncate">A: {regA.name}</div>
+                  <div className="font-bold text-sky-400 truncate mt-0.5">B: {regB.name}</div>
+                </div>
+              </div>
+
+              <div className="xl:col-span-4">
+                <RegionPanel panelTitle="PLACE B // OPPOSITE" accentColor="sky" regionName={regB.name} lat={regB.lat} lon={regB.lon} variable={activeVar} startYear={startYear} endYear={endYear} onUpdateCoords={(name, lat, lon) => setRegB({ name, lat, lon })} />
+              </div>
             </section>
           </div>
         )}
       </main>
 
       <footer className="border-t border-white/10 py-4 text-center text-xs text-slate-400 font-mono-code">
-        TERRA-PULSE · NASA Space Apps Challenge 2026 · Data Source: NASA Langley POWER Earth
-        Observations
+        TERRA-PULSE · NASA Space Apps Challenge 2026 · Data: NASA Langley POWER
       </footer>
     </div>
   );
