@@ -143,7 +143,7 @@ No API key is required: the NASA POWER API is open and free to use.
 
 ---
 
-## 7. Societal & Educational Impact
+## 8. Societal & Educational Impact
 
 **TERRA-PULSE** bridges the gap between complex NASA Earth observation archives and everyday decision-making, creating measurable impact across three key areas:
 
