@@ -1,7 +1,9 @@
 # TERRA-PULSE // NASA Earth System Trend Detective
 
 **Live interactive web app:** https://terra-pulse-gamma.vercel.app
+
 **GitHub repository:** https://github.com/Lizziegonzz22/terra-pulse
+
 **Challenge:** *Be An Earth System Trend Detective!* — 2026 NASA Space Apps Challenge (Uruguay)
 
 ![TERRA-PULSE overview](docs/overview.png)
