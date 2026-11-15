@@ -168,7 +168,7 @@ No API key is required: the NASA POWER API is open and free to use.
 
 **AI assistance disclosure**
 
-AI assistants (Claude, GitHub Copilot and Google Gemini) were used during the hackathon for initial brainstorming, documentation structure, UI copy refinement and README drafting. All system architecture, statistical engines and scientific integrations were independently built and verified by the team.
+AI assistants (Claude, GitHub Copilot and Google Gemini) were used during the hackathon for initial brainstorming, documentation structure, UI copy refinement and README drafting. All system architecture, statistical engines and scientific integrations were independently built and verified by the author. 
 
 **License**
 
