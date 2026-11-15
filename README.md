@@ -22,7 +22,7 @@
 5. [Statistical methodology](#5-statistical-methodology)
 6. [Tech stack & local installation](#6-tech-stack--local-installation)
 7. [How TERRA-PULSE maps to the judging criteria](#7-how-terra-pulse-maps-to-the-judging-criteria)
-8. [7. Societal & Educational Impact](#8-societal--educational-impact)
+8. [Societal & Educational Impact](#8-societal--educational-impact)
 9. [References, AI disclosure & license](#9-references-ai-disclosure--license)
 
 ---
