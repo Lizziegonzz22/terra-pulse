@@ -48,7 +48,6 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase, regionA, regionB, 
   const rot = useRef({ lon: 55, lat: -10, drag: false, moved: false, x: 0, y: 0 });
   const [autoSpin, setAutoSpin] = useState(true);
   const [activePin, setActivePin] = useState<'A' | 'B'>('A');
-
   useEffect(() => {
     let id: number;
     let sat = 0;
@@ -139,7 +138,6 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase, regionA, regionB, 
     id = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(id);
   }, [autoSpin, regionA, regionB, compact]);
-
   const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (rot.current.moved || !onPickCoordinate || !canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
@@ -188,11 +186,13 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase, regionA, regionB, 
         <div className="flex flex-wrap justify-center gap-1.5 mt-2">
           {HOTSPOTS.map((s) => (
             <button key={s.id} type="button" onClick={() => onSelectCase(DEMO_CASES.at(s.idx)!)} className="text-[11px] font-mono-code bg-[#0D121E] border border-white/15 px-2.5 py-1 rounded-full flex items-center gap-1.5 text-white">
-              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} /> {s.label}
-
-))}
-
-)}
-
-);
+              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} />
+              <span>{s.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
+
