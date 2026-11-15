@@ -40,8 +40,7 @@ Every regional panel supports one-click CSV export combining primary telemetry w
 
 | Montevideo / Río de la Plata (`Lat: -34.9, Lon: -56.2`) | Central Valley, Chile (`Lat: -33.4, Lon: -70.6`) |
 | :---: | :---: |
-| ![Montevideo CSV Export Sample](docs/csv-montevideo.png) | ![Central Chile CSV Export Sample](docs/csv-chile.png) |
-
+| <img src="docs/csv-montevideo.png" width="320" alt="Montevideo CSV Export Sample" /> | <img src="docs/csv-chile.png" width="320" alt="Central Chile CSV Export Sample" /> |
 
 ---
 
