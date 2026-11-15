@@ -4,6 +4,8 @@
 **GitHub Repository:** [https://github.com/Lizziegonzz22/terra-pulse](https://github.com/Lizziegonzz22/terra-pulse)  
 **Challenge:** *Be An Earth System Trend Detective!* — 2026 NASA Space Apps Challenge
 
+![TERRA-PULSE Mission Overview & 3D Orbital Globe](docs/overview.png)
+
 ---
 
 ## 1. Overview & Scientific Problem
