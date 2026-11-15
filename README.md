@@ -21,6 +21,8 @@
 * **Dual-Region Trend Lab (`RegionPanel.tsx`, `TrendChart.tsx`, `TrajectoryBar.tsx`):** Side-by-side analysis across 6 pre-configured global monitoring regions or custom coordinate sampling, featuring SVG telemetry charts, Ordinary Least Squares (OLS) regression lines, 2050 linear trajectories, co-located multi-sensor readouts, and one-click CSV export.
 * **Teleconnection Dipole Meter & Multi-Sensor Radar (`TeleconnectionMeter.tsx`, `AnomalyRadar.tsx`):** Computes inter-regional Pearson correlation coefficients (\(r\)) to identify inverse or synchronized dipoles and overlays normalized decadal anomalies across multiple sensor axes.
 
+![TERRA-PULSE Dual-Region Trend Lab & Teleconnection Analysis](docs/trend-lab.png)
+
 ---
 
 ## 3. NASA Earth Science Data & Sensors
