@@ -40,10 +40,10 @@ const CONTINENTS = LAND_DATA.map((item) => {
 });
 
 const HOTSPOTS = [
-  { id: 'uru', label: 'Río de la Plata (+Rain)', lat: -34.9, lon: -56.2, color: '#62B6CB', idx: 0 },
-  { id: 'chi', label: 'Central Chile (-Drought)', lat: -33.4, lon: -70.6, color: '#E09F3E', idx: 0 },
-  { id: 'arc', label: 'Svalbard (+3.4°C)', lat: 78.2, lon: 15.6, color: '#98B092', idx: 1 },
-  { id: 'can', label: 'Boreal Canada (Smoke)', lat: 54.5, lon: -105.5, color: '#CAE9FF', idx: 2 },
+  { id: 'uru', label: 'Río de la Plata (+Rain)', lat: -34.9, lon: -56.2, color: '#38BDF8', idx: 0 },
+  { id: 'chi', label: 'Central Chile (-Drought)', lat: -33.4, lon: -70.6, color: '#F59E0B', idx: 0 },
+  { id: 'arc', label: 'Svalbard (+3.4°C)', lat: 78.2, lon: 15.6, color: '#FBBF24', idx: 1 },
+  { id: 'can', label: 'Boreal Canada (Smoke)', lat: 54.5, lon: -105.5, color: '#E2E8F0', idx: 2 },
 ];
 
 export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
@@ -67,13 +67,23 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
       sat = (sat + 0.015) % (Math.PI * 2);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Resplandor atmosférico terrestre natural
-      const halo = ctx.createRadialGradient(cx, cy, r * 0.88, cx, cy, r * 1.2);
-      halo.addColorStop(0, 'rgba(98, 182, 203, 0.25)');
-      halo.addColorStop(1, 'rgba(16, 32, 48, 0)');
+      // Halo atmosférico azul orbital
+      const halo = ctx.createRadialGradient(cx, cy, r * 0.88, cx, cy, r * 1.24);
+      halo.addColorStop(0, 'rgba(56, 189, 248, 0.28)');
+      halo.addColorStop(1, 'rgba(6, 8, 13, 0)');
       ctx.fillStyle = halo;
       ctx.beginPath();
-      ctx.arc(cx, cy, r * 1.2, 0, Math.PI * 2);
+      ctx.arc(cx, cy, r * 1.24, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Destello solar dorado en el horizonte superior izquierdo (igual que tu Slide 2)
+      const sunFlare = ctx.createRadialGradient(cx - 68, cy - 88, 2, cx - 68, cy - 88, 65);
+      sunFlare.addColorStop(0, 'rgba(255, 251, 235, 0.95)');
+      sunFlare.addColorStop(0.25, 'rgba(245, 158, 11, 0.55)');
+      sunFlare.addColorStop(1, 'rgba(245, 158, 11, 0)');
+      ctx.fillStyle = sunFlare;
+      ctx.beginPath();
+      ctx.arc(cx - 68, cy - 88, 65, 0, Math.PI * 2);
       ctx.fill();
 
       const proj = (lonDeg: number, latDeg: number) => {
@@ -91,11 +101,11 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
         return { x: cx + r * dx, y: cy + r * dy, vis: cosc >= 0 };
       };
 
-      // Océanos en azul geográfico vivo
-      const bg = ctx.createRadialGradient(cx - 35, cy - 35, 14, cx, cy, r);
-      bg.addColorStop(0, '#2C6E91');
-      bg.addColorStop(0.65, '#1B4965');
-      bg.addColorStop(1, '#102A3C');
+      // Océanos azul orbital nocturno con iluminación solar
+      const bg = ctx.createRadialGradient(cx - 45, cy - 55, 10, cx, cy, r);
+      bg.addColorStop(0, '#1D4ED8');
+      bg.addColorStop(0.55, '#0F294A');
+      bg.addColorStop(1, '#050A14');
       ctx.fillStyle = bg;
       ctx.beginPath();
       ctx.arc(cx, cy, r, 0, Math.PI * 2);
@@ -106,7 +116,7 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
       ctx.arc(cx, cy, r, 0, Math.PI * 2);
       ctx.clip();
 
-      ctx.strokeStyle = 'rgba(202, 233, 255, 0.14)';
+      ctx.strokeStyle = 'rgba(186, 230, 253, 0.1)';
       ctx.lineWidth = 1;
       for (let lat = -60; lat <= 60; lat += 30) {
         ctx.beginPath();
@@ -119,7 +129,7 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
         ctx.stroke();
       }
 
-      // Continentes en verde tierra vivo y polos en blanco hielo
+      // Continentes naturales con contraste nocturno
       CONTINENTS.forEach(({ poly, polar }) => {
         if (!poly.some((pt) => proj(pt.at(0)!, pt.at(1)!).vis)) return;
         ctx.beginPath();
@@ -128,10 +138,10 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
           i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
         });
         ctx.closePath();
-        ctx.fillStyle = polar ? '#DCE8EF' : '#4A7C59';
+        ctx.fillStyle = polar ? '#E2E8F0' : '#2E6F40';
         ctx.fill();
-        ctx.strokeStyle = polar ? '#FFFFFF' : '#98B092';
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = polar ? '#FFFFFF' : '#6EE7B7';
+        ctx.lineWidth = 1;
         ctx.stroke();
       });
 
@@ -149,19 +159,21 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
       });
 
       ctx.restore();
-      ctx.strokeStyle = '#62B6CB';
-      ctx.lineWidth = 1.5;
+
+      // Borde atmosférico brillante
+      ctx.strokeStyle = 'rgba(125, 211, 252, 0.65)';
+      ctx.lineWidth = 1.6;
       ctx.beginPath();
       ctx.arc(cx, cy, r, 0, Math.PI * 2);
       ctx.stroke();
 
       if (Math.sin(sat) > 0) {
-        ctx.fillStyle = '#E09F3E';
+        ctx.fillStyle = '#FBBF24';
         ctx.beginPath();
         ctx.arc(cx + Math.cos(sat) * 148, cy + Math.sin(sat) * 38 - Math.cos(sat) * 20, 4, 0, Math.PI * 2);
         ctx.fill();
         ctx.strokeStyle = '#FFFFFF';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.2;
         ctx.stroke();
       }
 
@@ -193,9 +205,9 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
         <button
           type="button"
           onClick={() => setAutoSpin(!autoSpin)}
-          className="absolute bottom-2 right-2 text-[10px] font-mono-code bg-[#193046] border border-[#5F8575] text-[#F1F5F2] px-2.5 py-1 rounded-lg flex items-center gap-1"
+          className="absolute bottom-2 right-2 text-[10px] font-mono-code bg-[#0D111A] border border-white/15 text-slate-200 px-2.5 py-1 rounded-lg flex items-center gap-1 hover:border-amber-400/60 transition"
         >
-          <RotateCw className="w-3 h-3 text-[#98B092]" /> {autoSpin ? 'AUTO' : 'MANUAL'}
+          <RotateCw className="w-3 h-3 text-amber-400" /> {autoSpin ? 'AUTO' : 'MANUAL'}
         </button>
       </div>
       <div className="flex flex-wrap justify-center gap-1.5 mt-2">
@@ -204,7 +216,7 @@ export const OrbitalGlobe: React.FC<Props> = ({ onSelectCase }) => {
             key={s.id}
             type="button"
             onClick={() => onSelectCase(DEMO_CASES.at(s.idx)!)}
-            className="text-[11px] font-mono-code bg-[#193046] hover:bg-[#2F6352] border border-[#5F8575]/60 px-2.5 py-1 rounded-full flex items-center gap-1.5 text-[#F1F5F2] transition"
+            className="text-[11px] font-mono-code bg-[#0D111A] hover:bg-white/10 border border-white/15 px-2.5 py-1 rounded-full flex items-center gap-1.5 text-slate-200 transition"
           >
             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} /> {s.label}
           </button>
