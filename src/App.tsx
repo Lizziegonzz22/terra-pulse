@@ -84,6 +84,7 @@ export function App() {
                   <h3 className="text-sm font-bold text-white">Drag to Rotate · Tap Globe to Sample</h3>
                 </div>
                 <OrbitalGlobe compact regionA={regA} regionB={regB} onPickCoordinate={(t, name, lat, lon) => t === 'A' ? setRegA({ name, lat, lon }) : setRegB({ name, lat, lon })} />
+                <TeleconnectionMeter regionA={regA} regionB={regB} variable={activeVar} startYear={startYear} endYear={endYear} />
                 <div className="w-full bg-[#05070C] border border-white/15 rounded-xl p-2.5 text-center text-xs">
                   <div className="font-bold text-amber-400 truncate">A: {regA.name}</div>
                   <div className="font-bold text-sky-400 truncate mt-0.5">B: {regB.name}</div>
