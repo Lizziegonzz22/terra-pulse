@@ -4,7 +4,7 @@
 
 **GitHub repository:** https://github.com/Lizziegonzz22/terra-pulse
 
-**Challenge:** *Be An Earth System Trend Detective!* — 2026 NASA Space Apps Challenge (Uruguay)
+**Challenge:** *Be An Earth System Trend Detective!* — 2026 NASA Space Apps Challenge
 
 ![TERRA-PULSE overview](docs/overview.png)
 
@@ -20,10 +20,9 @@
 3. [NASA Earth science data & sensors](#3-nasa-earth-science-data--sensors)
 4. [Example finding: Río de la Plata vs. Central Chile](#4-example-finding-río-de-la-plata-vs-central-chile)
 5. [Statistical methodology](#5-statistical-methodology)
-6. [Project architecture & folder structure](#6-project-architecture--folder-structure)
-7. [Tech stack & local installation](#7-tech-stack--local-installation)
-8. [How TERRA-PULSE maps to the judging criteria](#9-how-terra-pulse-maps-to-the-judging-criteria)
-9. [References, AI disclosure & license](#10-references-ai-disclosure--license)
+6. [Tech stack & local installation](#7-tech-stack--local-installation)
+7. [How TERRA-PULSE maps to the judging criteria](#9-how-terra-pulse-maps-to-the-judging-criteria)
+8. [References, AI disclosure & license](#10-references-ai-disclosure--license)
 
 ---
 
@@ -78,9 +77,9 @@ TERRA-PULSE queries homogenized annual time series from the **NASA Langley Resea
 
 Every regional panel exports a CSV that combines the primary telemetry with co-located temperature (`Temp_C`), solar irradiance (`Solar_kWh`) and the exact coordinates (`Lat`, `Lon`), so results can be reproduced and re-analyzed outside the app.
 
-| Montevideo / Río de la Plata (Lat -34.9, Lon -56.2) | Central Valley, Chile (Lat -33.4, Lon -70.6) |
-|---|---|
-| ![CSV Montevideo](docs/csv-montevideo.png) | ![CSV Chile](docs/csv-chile.png) |
+| Montevideo / Río de la Plata (`Lat: -34.9, Lon: -56.2`) | Central Valley, Chile (`Lat: -33.4, Lon: -70.6`) |
+| :---: | :---: |
+| <img src="docs/csv-montevideo.png" width="320" alt="Montevideo CSV Export Sample" /> | <img src="docs/csv-chile.png" width="320" alt="Central Chile CSV Export Sample" /> |
 
 ---
 
@@ -112,49 +111,7 @@ Using both OLS and Mann–Kendall means a trend is only called significant when 
 
 ---
 
-## 6. Project architecture & folder structure
-
-```text
-terra-pulse/
-├── index.html                 # Application entry HTML & metadata
-├── package.json               # Dependencies and build scripts
-├── postcss.config.js          # PostCSS configuration (Tailwind CSS pipeline)
-├── tailwind.config.js         # Custom dark orbital UI theme
-├── tsconfig.json              # TypeScript compiler configuration
-├── vite.config.ts             # Vite bundler setup
-├── .gitignore                 # Files excluded from version control
-├── LICENSE                    # MIT license
-├── README.md                  # This file
-├── docs/                      # Screenshots and CSV samples used in this README
-│   ├── overview.png
-│   ├── trend-lab.png
-│   ├── csv-montevideo.png
-│   └── csv-chile.png
-└── src/
-    ├── main.tsx               # React DOM root initialization
-    ├── index.css              # Global styles and custom utilities
-    ├── App.tsx                # Main navigation state (Overview / Wizard / Trend Lab)
-    ├── types/
-    │   └── climate.ts         # TypeScript interfaces for sensors, regions and results
-    ├── services/
-    │   └── nasaPowerApi.ts    # NASA LaRC POWER API client + caching + fallback
-    ├── engine/
-    │   └── statistics.ts      # OLS regression, 95% CI, Mann-Kendall, Pearson r
-    └── components/
-        ├── MissionOverview.tsx      # Landing view, KPI banner, featured cases
-        ├── DetectiveWizard.tsx      # 3-step guided investigation builder
-        ├── OrbitalGlobe.tsx         # Interactive 3D orthographic Earth (Canvas)
-        ├── WorldPickerMap.tsx       # Interactive coordinate & region picker
-        ├── RegionPanel.tsx          # Telemetry card, OLS stats, CSV export
-        ├── TrendChart.tsx           # SVG time-series chart with baseline & trend line
-        ├── TrajectoryBar.tsx        # Linear projection indicator to 2050
-        ├── TeleconnectionMeter.tsx  # Dual-region dipole detector & correlation
-        └── AnomalyRadar.tsx         # 4-sensor comparative anomaly radar
-```
-
----
-
-## 7. Tech stack & local installation
+## 6. Tech stack & local installation
 
 **Stack:** React 18, TypeScript, Vite, Tailwind CSS, a custom HTML5 Canvas 3D orthographic globe, the NASA LaRC POWER API, and Vercel hosting.
 
@@ -173,7 +130,7 @@ No API key is required: the NASA POWER API is open and free to use.
 
 ---
 
-## 8. How TERRA-PULSE maps to the judging criteria
+## 7. How TERRA-PULSE maps to the judging criteria
 
 | Criterion | How the project responds |
 |---|---|
@@ -185,7 +142,7 @@ No API key is required: the NASA POWER API is open and free to use.
 
 ---
 
-## 9. References, AI disclosure & license
+## 8. References, AI disclosure & license
 
 **Data and methods**
 
