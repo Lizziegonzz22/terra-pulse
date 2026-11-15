@@ -7,6 +7,7 @@ import { DetectiveWizard } from './components/DetectiveWizard';
 import { RegionPanel } from './components/RegionPanel';
 import { OrbitalGlobe } from './components/OrbitalGlobe';
 import { TeleconnectionMeter } from './components/TeleconnectionMeter';
+import { AnomalyRadar } from './components/AnomalyRadar';
 
 export function App() {
   const def = DEMO_CASES.at(0)!;
@@ -85,6 +86,7 @@ export function App() {
                 </div>
                 <OrbitalGlobe compact regionA={regA} regionB={regB} onPickCoordinate={(t, name, lat, lon) => t === 'A' ? setRegA({ name, lat, lon }) : setRegB({ name, lat, lon })} />
                 <TeleconnectionMeter regionA={regA} regionB={regB} variable={activeVar} startYear={startYear} endYear={endYear} />
+                <AnomalyRadar regionA={regA} regionB={regB} startYear={startYear} endYear={endYear} />
                 <div className="w-full bg-[#05070C] border border-white/15 rounded-xl p-2.5 text-center text-xs">
                   <div className="font-bold text-amber-400 truncate">A: {regA.name}</div>
                   <div className="font-bold text-sky-400 truncate mt-0.5">B: {regB.name}</div>
