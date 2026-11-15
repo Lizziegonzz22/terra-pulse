@@ -147,7 +147,7 @@ No API key is required: the NASA POWER API is open and free to use.
 
 **TERRA-PULSE** bridges the gap between complex NASA Earth observation archives and everyday decision-making, creating measurable impact across three key areas:
 
-* **Democratizing Climate Literacy:** High school and university students can explore 39 years of real NASA satellite telemetry and run rigorous statistical tests (\(p < 0.05\)) directly in their browser—eliminating the need for coding skills or expensive software.
+* **Democratizing Climate Literacy:** High school and university students can explore 39 years of real NASA satellite telemetry and run rigorous statistical tests (p < 0.05)** directly in their browser—eliminating the need for coding skills or expensive software.
 * **Combating Climate Misinformation:** By visually contrasting short-term weather fluctuations against multi-decadal baselines, the platform equips citizens and journalists with verifiable scientific evidence to refute cherry-picked climate claims.
 * **Local Resilience & Regional Awareness:** Highlighting real-world teleconnections—such as the cross-Andes precipitation dipole between Uruguay (**+16.9%**) and Central Chile (**−58.7%**) during ENSO cycles—helps communities understand how global planetary dynamics directly affect local agriculture, water security, and disaster preparedness.
 
